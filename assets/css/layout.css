@@ -91,10 +91,22 @@
 }
 
 /* ==========================================================================
-   Contenu
+   Sections : chaque bloc de page a son propre espacement vertical
    ========================================================================== */
-main {
-    padding-block: var(--espace-xl);
+.section {
+    padding-block: clamp(3rem, 2rem + 5vw, 6rem);
+}
+
+/* En-tête de section : surtitre + titre + éventuelle introduction */
+.entete-section {
+    display: grid;
+    gap: var(--espace-s);
+    margin-bottom: var(--espace-l);
+}
+
+.entete-section--centre {
+    justify-items: center;
+    text-align: center;
 }
 
 /* ==========================================================================

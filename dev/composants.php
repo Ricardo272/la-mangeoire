@@ -10,7 +10,7 @@ require_once __DIR__ . '/../includes/head.php';
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<main id="contenu" class="conteneur dev">
+<main id="contenu" class="conteneur section dev">
     <p class="surtitre">Outil de développement</p>
     <h1>Composants</h1>
     <p>Chaque composant du site, dans toutes ses variantes. Les classes CSS sont indiquées sous chaque exemple.</p>

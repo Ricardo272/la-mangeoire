@@ -1,22 +1,249 @@
 /* ==========================================================================
-   Page d'accueil (provisoire, phase 1)
+   Page d'accueil
    ========================================================================== */
 
-.slogan {
-    margin-top: var(--espace-s);
+
+/* ==========================================================================
+   Ouverture : texte puis photo sur mobile, côte à côte sur grand écran
+   ========================================================================== */
+.ouverture__grille {
+    display: grid;
+    gap: var(--espace-xl);
+    align-items: center;
+}
+
+.ouverture__texte {
+    display: grid;
+    gap: var(--espace-m);
+    justify-items: start;
+}
+
+/* Le nom du bistrot, plus grand que les autres titres de page */
+.ouverture__titre {
+    font-size: clamp(3rem, 2rem + 5vw, 6rem);
+    line-height: 1;
+}
+
+.ouverture__slogan {
     font-family: var(--police-titres);
     font-style: italic;
     font-size: var(--taille-1);
+    line-height: 1.35;
     color: var(--couleur-texte-doux);
 }
 
-/* Échantillon temporaire : sera supprimé en phase 3 */
-.echantillon {
-    margin-top: var(--espace-xl);
+.ouverture__intro {
+    max-width: 38ch;
+}
+
+/* Photo : un filet laiton décalé derrière, comme un second cadre */
+.ouverture__image {
+    position: relative;
+    isolation: isolate; /* le cadre en z-index négatif reste derrière la photo, pas derrière la page */
+    max-width: 30rem;
+    margin-inline: auto;
+    margin-right: var(--espace-s);
+}
+
+.ouverture__image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid var(--couleur-filet);
+    transform: translate(var(--espace-s), var(--espace-s));
+}
+
+@media (min-width: 56em) {
+    .ouverture__grille {
+        grid-template-columns: 1.15fr 0.85fr;
+    }
+
+    .ouverture__image {
+        margin-right: var(--espace-s);
+    }
+}
+
+
+/* ==========================================================================
+   Ardoise du jour
+   ========================================================================== */
+.section-ardoise__grille {
+    display: grid;
+    gap: var(--espace-xl);
+    align-items: center;
+}
+
+.section-ardoise__texte {
     display: grid;
     gap: var(--espace-s);
+    justify-items: start;
 }
 
-.echantillon__doux {
-    color: var(--couleur-texte-doux);
+.section-ardoise__texte .bouton {
+    margin-top: var(--espace-xs);
+}
+
+@media (min-width: 48em) {
+    .section-ardoise__grille {
+        grid-template-columns: minmax(0, 24rem) 1fr;
+    }
+}
+
+
+/* ==========================================================================
+   Ce qui n'a pas changé : I, II, III
+   Les chiffres romains viennent d'un compteur CSS (counter) au format
+   « upper-roman » : pas besoin de les écrire dans le HTML.
+   ========================================================================== */
+.inchange {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+    gap: var(--espace-l);
+    padding: 0;
+    list-style: none;
+    counter-reset: inchange;
+}
+
+.inchange__element {
+    display: grid;
+    gap: var(--espace-xs);
+    justify-items: center;
+    text-align: center;
+    counter-increment: inchange;
+}
+
+.inchange__element::before {
+    content: counter(inchange, upper-roman);
+    padding-bottom: var(--espace-xs);
+    border-bottom: 1px solid var(--couleur-filet);
+    font-family: var(--police-titres);
+    font-size: var(--taille-3);
+    line-height: 1;
+    color: var(--couleur-accent);
+}
+
+.inchange__element h3 {
+    margin-top: var(--espace-xs);
+    font-size: var(--taille-1);
+}
+
+.inchange__element p {
+    max-width: 30ch;
+}
+
+
+/* ==========================================================================
+   Trois générations
+   ========================================================================== */
+.generations {
+    display: grid;
+    gap: var(--espace-l);
+    padding: 0;
+    list-style: none;
+}
+
+.generations__etape {
+    display: grid;
+    gap: var(--espace-xs);
+    align-content: start;
+}
+
+.generations__annee {
+    font-family: var(--police-titres);
+    font-size: var(--taille-3);
+    line-height: 1;
+    color: var(--couleur-accent);
+}
+
+/* Petit filet laiton sous l'année */
+.generations__annee::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 1px;
+    margin-top: var(--espace-s);
+    background-color: var(--couleur-filet);
+}
+
+.generations__etape h3 {
+    font-size: var(--taille-1);
+}
+
+.section-generations__lien {
+    margin-top: var(--espace-l);
+    max-width: none;
+    text-align: center;
+}
+
+/* Sur grand écran : trois colonnes séparées par des filets verticaux */
+@media (min-width: 48em) {
+    .generations {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+    }
+
+    .generations__etape {
+        padding-inline: var(--espace-l);
+    }
+
+    .generations__etape:first-child {
+        padding-left: 0;
+    }
+
+    .generations__etape + .generations__etape {
+        border-left: 1px solid var(--couleur-filet);
+    }
+}
+
+
+/* ==========================================================================
+   Bandeau pratique : fond bordeaux, texte crème
+   ========================================================================== */
+.bandeau-pratique {
+    background-color: var(--couleur-bordeaux);
+    color: var(--couleur-creme);
+}
+
+.bandeau-pratique h2 {
+    margin-bottom: var(--espace-s);
+    color: var(--couleur-creme);
+}
+
+/* :not(.bouton) : sinon cette règle, plus précise que .bouton--clair,
+   écraserait la couleur du bouton (texte crème sur fond crème). */
+.bandeau-pratique a:not(.bouton) {
+    color: var(--couleur-creme);
+}
+
+/* Sur le bordeaux, le contour de focus bordeaux serait invisible */
+.bandeau-pratique :focus-visible {
+    outline-color: var(--couleur-creme);
+}
+
+.bandeau-pratique__grille {
+    display: grid;
+    gap: var(--espace-l);
+    align-items: end;
+}
+
+.bandeau-pratique__horaires {
+    display: grid;
+    gap: var(--espace-xs);
+    margin-bottom: var(--espace-m);
+    padding: 0;
+    list-style: none;
+}
+
+.bandeau-pratique__tel {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-weight: 500;
+}
+
+@media (min-width: 48em) {
+    .bandeau-pratique__grille {
+        grid-template-columns: 1fr 1fr;
+    }
 }

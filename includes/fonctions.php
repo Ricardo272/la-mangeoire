@@ -101,6 +101,27 @@ function imageTemporaire(string $chemin, string $alt, int $largeur, int $hauteur
 }
 
 /**
+ * Date en toutes lettres, en français : « Samedi 7 novembre ».
+ * Utilise l'extension intl de PHP (active dans Laragon).
+ */
+function dateLongue(?DateTimeInterface $date = null): string
+{
+    $date ??= new DateTimeImmutable();
+    $format = new IntlDateFormatter('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::NONE, 'Europe/Paris', null, 'EEEE d MMMM');
+    return ucfirst($format->format($date));
+}
+
+/**
+ * Prix à la française : 19 → « 19 € » ; 8.5 → « 8,50 € ».
+ * L'espace avant « € » est insécable : le symbole ne part jamais seul à la ligne.
+ */
+function prix(float $montant): string
+{
+    $decimales = floor($montant) == $montant ? 0 : 2;
+    return number_format($montant, $decimales, ',', "\u{202F}") . "\u{00A0}€";
+}
+
+/**
  * « 14:30 » → « 14h30 » ; « 12:00 » → « 12h ».
  */
 function formaterHeure(string $heure): string
