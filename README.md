@@ -47,9 +47,13 @@ la-mangeoire/
 ## Avancement
 
 - [x] Phase 0 : mise en place
-- [ ] Phase 1 : fondations (variables CSS, includes)
-- [ ] Phase 2 : composants (ardoise, filets dorés, boutons, menu)
+- [x] Phase 1 : fondations (variables CSS, includes)
+- [x] Phase 2 : composants (ardoise, filets dorés, boutons, menu)
 - [ ] Phase 3 : pages sans base de données
+  - [x] Accueil
+  - [x] Notre histoire
+  - [ ] Mentions légales (auteur : Ricardo Remond ; conservation des réservations : 3 mois après le repas)
+  - [ ] Page 404 + `.htaccess` (`ErrorDocument 404 /404.php`)
 - [ ] Phase 4 : base de données (carte, ardoise, badge « Ouvert »)
 - [ ] Phase 5 : Venir nous voir et réservation
 - [ ] Phase 6 : finitions (animations, accessibilité, SEO)
