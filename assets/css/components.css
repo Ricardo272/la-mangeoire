@@ -1,0 +1,387 @@
+/* ==========================================================================
+   Composants réutilisables : filets, encadré, surtitre, boutons, ardoise,
+   images temporaires, menu burger.
+   Démonstration de chaque composant : /dev/composants.php
+   ========================================================================== */
+
+
+/* ==========================================================================
+   Filets dorés
+   ========================================================================== */
+
+/* Filet simple : une fine ligne laiton (à utiliser sur un <hr>) */
+.filet {
+    height: 1px;
+    margin-block: var(--espace-l);
+    border: 0;
+    background-color: var(--couleur-filet);
+}
+
+/* Filet court, centré : sous un titre par exemple */
+.filet--court {
+    width: 6rem;
+    margin-inline: auto;
+}
+
+/* Filet orné : la ligne s'interrompt au centre pour laisser place à un losange.
+   La ligne est un dégradé avec un « trou » transparent au milieu ;
+   le losange est un petit carré tourné à 45°. */
+.filet--orne {
+    position: relative;
+    overflow: visible;
+    background: linear-gradient(
+        to right,
+        var(--couleur-filet) calc(50% - 1.25rem),
+        transparent calc(50% - 1.25rem) calc(50% + 1.25rem),
+        var(--couleur-filet) calc(50% + 1.25rem)
+    );
+}
+
+.filet--orne::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: var(--couleur-filet);
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+
+/* ==========================================================================
+   Encadré à double filet
+   Le trait extérieur est la bordure, le trait intérieur est un « outline »
+   décalé vers l'intérieur (outline-offset négatif).
+   ========================================================================== */
+.encadre {
+    padding: var(--espace-l) var(--espace-m);
+    border: 1px solid var(--couleur-filet);
+    outline: 1px solid var(--couleur-filet);
+    outline-offset: -6px;
+}
+
+
+/* ==========================================================================
+   Surtitre : « —— DEPUIS 1952 —— »
+   Tirets en laiton (décor), texte en noir adouci (lisible).
+   ========================================================================== */
+.surtitre {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: var(--espace-xs);
+    font-size: var(--taille-petite);
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--couleur-texte-doux);
+}
+
+.surtitre::before,
+.surtitre::after {
+    content: "";
+    width: 1.5rem;
+    height: 1px;
+    background-color: var(--couleur-filet);
+}
+
+/* Par défaut, seul le tiret de gauche s'affiche ; centré, on garde les deux */
+.surtitre::after {
+    display: none;
+}
+
+.surtitre--centre {
+    justify-content: center;
+}
+
+.surtitre--centre::after {
+    display: block;
+}
+
+
+/* ==========================================================================
+   Boutons (fonctionnent sur <a> comme sur <button>)
+   ========================================================================== */
+.bouton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espace-xs);
+    min-height: 2.75rem; /* 44px : taille recommandée pour le doigt */
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--couleur-bordeaux);
+    border-radius: var(--rayon);
+    background-color: var(--couleur-bordeaux);
+    color: var(--couleur-creme);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--duree), color var(--duree), border-color var(--duree);
+}
+
+.bouton:hover {
+    background-color: color-mix(in srgb, var(--couleur-bordeaux) 82%, var(--couleur-noir));
+}
+
+/* Action secondaire : contour seul */
+.bouton--contour {
+    background-color: transparent;
+    color: var(--couleur-bordeaux);
+}
+
+.bouton--contour:hover {
+    background-color: var(--couleur-bordeaux);
+    color: var(--couleur-creme);
+}
+
+/* Pour fond noir */
+.bouton--clair {
+    border-color: var(--couleur-creme);
+    background-color: var(--couleur-creme);
+    color: var(--couleur-noir);
+}
+
+.bouton--clair:hover {
+    background-color: transparent;
+    color: var(--couleur-creme);
+}
+
+/* Plusieurs boutons côte à côte, qui passent à la ligne si besoin */
+.groupe-boutons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+
+/* ==========================================================================
+   Ardoise du plat du jour — format portrait
+   Fond : le noir doux de la palette + une texture de craie générée en CSS :
+     - deux halos clairs (traces de craie mal effacée)
+     - un grain fin, produit par un filtre SVG « feTurbulence » (bruit)
+   Cadre : double filet laiton à l'intérieur du bord.
+   ========================================================================== */
+.ardoise {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espace-s);
+    width: 100%;
+    max-width: 24rem;
+    aspect-ratio: 3 / 4; /* portrait. Si le texte est long, l'ardoise s'allonge. */
+    margin-inline: auto;
+    padding: var(--espace-xl) var(--espace-l);
+    border-radius: var(--rayon);
+    background-color: var(--couleur-noir);
+    background-image:
+        radial-gradient(ellipse 60% 40% at 25% 25%, color-mix(in srgb, var(--couleur-creme) 7%, transparent), transparent),
+        radial-gradient(ellipse 50% 35% at 75% 80%, color-mix(in srgb, var(--couleur-creme) 5%, transparent), transparent),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.94 0 0 0 0 0.89 0.5 0 0 0 -0.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    color: var(--couleur-creme);
+    font-family: var(--police-craie);
+    text-align: center;
+    box-shadow: 0 0.75rem 2rem -1rem color-mix(in srgb, var(--couleur-noir) 60%, transparent);
+}
+
+/* Le cadre : double filet laiton, légèrement en retrait du bord */
+.ardoise::before {
+    content: "";
+    position: absolute;
+    inset: 0.6rem;
+    border: 3px double var(--couleur-laiton);
+    border-radius: var(--rayon);
+    pointer-events: none;
+}
+
+/* Tout le texte a un léger flou, comme de la craie */
+.ardoise > * {
+    max-width: none;
+    text-shadow: 0 0 1px color-mix(in srgb, var(--couleur-creme) 50%, transparent);
+}
+
+.ardoise__titre {
+    font-family: var(--police-craie);
+    font-size: var(--taille-2);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--couleur-creme);
+}
+
+.ardoise__date {
+    font-size: var(--taille-1);
+    color: color-mix(in srgb, var(--couleur-creme) 80%, transparent);
+}
+
+/* Petit trait de craie entre la date et le plat */
+.ardoise__date::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 2px;
+    margin: var(--espace-s) auto 0;
+    border-radius: 2px;
+    background-color: color-mix(in srgb, var(--couleur-creme) 45%, transparent);
+}
+
+.ardoise__plat {
+    font-size: var(--taille-3);
+    font-weight: 700;
+    line-height: 1.05;
+}
+
+.ardoise__description {
+    font-size: var(--taille-1);
+    line-height: 1.2;
+    color: color-mix(in srgb, var(--couleur-creme) 85%, transparent);
+}
+
+/* Prix entouré d'un cercle tracé à la craie */
+.ardoise__prix {
+    margin-top: var(--espace-xs);
+    padding: 0.1em 0.6em;
+    border: 2px solid color-mix(in srgb, var(--couleur-creme) 60%, transparent);
+    border-radius: 50%;
+    font-size: var(--taille-2);
+    font-weight: 700;
+}
+
+/* Ardoise vide : « L'ardoise est en cours d'écriture… » */
+.ardoise__message {
+    font-size: var(--taille-2);
+    line-height: 1.2;
+    color: color-mix(in srgb, var(--couleur-creme) 85%, transparent);
+}
+
+/* Variante plus grande, pour la page de la carte */
+.ardoise--grande {
+    max-width: 30rem;
+}
+
+
+/* ==========================================================================
+   Images temporaires (générées par la fonction PHP image())
+   ========================================================================== */
+.image-temp {
+    width: 100%;
+    outline: 1px dashed var(--couleur-filet);
+    outline-offset: -1px;
+}
+
+
+/* ==========================================================================
+   Menu burger — uniquement sur petit écran ET si JavaScript fonctionne
+   (classe .js ajoutée sur <html> par head.php).
+   L'état ouvert/fermé est lu directement sur l'attribut aria-expanded
+   du bouton : une seule source de vérité, partagée avec les lecteurs d'écran.
+   ========================================================================== */
+
+/* Sans JavaScript ou sur grand écran : pas de bouton */
+.nav-bouton {
+    display: none;
+}
+
+@media (width < 48em) {
+    .js .entete__interieur {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .js .entete__logo {
+        align-items: flex-start;
+    }
+
+    .js .nav-bouton {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        min-height: 2.75rem;
+        padding: 0.5rem 0.9rem;
+        border: 1px solid var(--couleur-filet);
+        border-radius: var(--rayon);
+        background: none;
+        color: var(--couleur-accent);
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    /* La navigation passe sous la ligne logo + bouton, sur toute la largeur.
+       Repliée : hauteur 0 (grille 0fr) et invisible, donc ses liens ne sont
+       pas atteignables au clavier. Le délai sur « visibility » laisse
+       l'animation de fermeture se terminer avant de masquer. */
+    .js .nav-principale {
+        display: grid;
+        flex-basis: 100%;
+        grid-template-rows: 0fr;
+        visibility: hidden;
+        transition: grid-template-rows 300ms ease, visibility 0s 300ms;
+    }
+
+    .js .nav-bouton[aria-expanded="true"] + .nav-principale {
+        grid-template-rows: 1fr;
+        visibility: visible;
+        transition: grid-template-rows 300ms ease, visibility 0s;
+    }
+
+    .js .nav-principale__liste {
+        flex-direction: column;
+        gap: 0;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .js .nav-principale__lien {
+        display: block;
+        padding-block: 0.85rem;
+        border-bottom: 1px solid color-mix(in srgb, var(--couleur-filet) 40%, transparent);
+    }
+
+    .js .nav-principale__lien[aria-current="page"] {
+        border-bottom-color: var(--couleur-filet);
+    }
+}
+
+/* Icône : trois traits (un trait + ses deux pseudo-éléments),
+   qui se transforment en croix quand le menu est ouvert */
+.nav-bouton__icone,
+.nav-bouton__icone::before,
+.nav-bouton__icone::after {
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    border-radius: 1px;
+    background-color: currentColor;
+    transition: transform var(--duree), background-color var(--duree);
+}
+
+.nav-bouton__icone {
+    position: relative;
+}
+
+.nav-bouton__icone::before,
+.nav-bouton__icone::after {
+    content: "";
+    position: absolute;
+    left: 0;
+}
+
+.nav-bouton__icone::before { top: -6px; }
+.nav-bouton__icone::after  { top: 6px; }
+
+.nav-bouton[aria-expanded="true"] .nav-bouton__icone {
+    background-color: transparent;
+}
+
+.nav-bouton[aria-expanded="true"] .nav-bouton__icone::before {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.nav-bouton[aria-expanded="true"] .nav-bouton__icone::after {
+    transform: translateY(-6px) rotate(-45deg);
+}

@@ -12,6 +12,13 @@
             <span class="entete__depuis">Bistrot depuis <?= e((string) $site['depuis']) ?></span>
         </a>
 
+        <!-- Bouton du menu mobile. Il doit rester JUSTE AVANT la navigation :
+             le CSS s'appuie sur cet ordre (sélecteur « + »). -->
+        <button class="nav-bouton" type="button" aria-expanded="false" aria-controls="nav-principale-liste">
+            <span class="nav-bouton__icone" aria-hidden="true"></span>
+            <span>Menu</span>
+        </button>
+
         <?php require __DIR__ . '/nav.php'; ?>
     </div>
 </header>

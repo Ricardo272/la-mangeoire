@@ -7,7 +7,7 @@
 ?>
 <nav class="nav-principale" aria-label="Navigation principale">
     <!-- role="list" : Safari retire la sémantique de liste quand on supprime les puces en CSS -->
-    <ul class="nav-principale__liste" role="list">
+    <ul class="nav-principale__liste" id="nav-principale-liste" role="list">
 <?php foreach ($site['navigation'] as $lien): ?>
         <li>
             <a class="nav-principale__lien" href="<?= e(url($lien['url'])) ?>"<?= $lien['id'] === $pageId ? ' aria-current="page"' : '' ?>><?= e($lien['label']) ?></a>
