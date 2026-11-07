@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Polices hébergées localement (licence SIL OFL 1.1, voir assets/fonts/licences/)
+   font-display: swap → le texte s'affiche tout de suite dans une police de
+   secours, puis la vraie police la remplace dès qu'elle est chargée.
+   ========================================================================== */
+
+/* Titres */
+@font-face {
+    font-family: "DM Serif Display";
+    src: url("../fonts/dm-serif-display-latin-400-normal.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "DM Serif Display";
+    src: url("../fonts/dm-serif-display-latin-400-italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* Texte : police variable, toutes les graisses de 100 à 900 dans un fichier */
+@font-face {
+    font-family: "Work Sans";
+    src: url("../fonts/work-sans-latin-wght-normal.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Craie : UNIQUEMENT pour l'ardoise du plat du jour */
+@font-face {
+    font-family: "Caveat";
+    src: url("../fonts/caveat-latin-wght-normal.woff2") format("woff2");
+    font-weight: 400 700;
+    font-style: normal;
+    font-display: swap;
+}

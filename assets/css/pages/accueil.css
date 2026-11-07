@@ -1,0 +1,22 @@
+/* ==========================================================================
+   Page d'accueil (provisoire, phase 1)
+   ========================================================================== */
+
+.slogan {
+    margin-top: var(--espace-s);
+    font-family: var(--police-titres);
+    font-style: italic;
+    font-size: var(--taille-1);
+    color: var(--couleur-texte-doux);
+}
+
+/* Échantillon temporaire : sera supprimé en phase 3 */
+.echantillon {
+    margin-top: var(--espace-xl);
+    display: grid;
+    gap: var(--espace-s);
+}
+
+.echantillon__doux {
+    color: var(--couleur-texte-doux);
+}

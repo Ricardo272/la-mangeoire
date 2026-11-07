@@ -1,0 +1,150 @@
+/* ==========================================================================
+   Base : remise à zéro légère et styles des éléments HTML.
+   ========================================================================== */
+
+/* --- Remise à zéro --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* la largeur inclut padding et bordure */
+}
+
+* {
+    margin: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%; /* évite le grossissement auto du texte sur iPhone */
+    text-size-adjust: 100%;
+}
+
+img,
+picture,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+/* --- Corps de page ---
+   En flex colonne : le <main> prend la place restante, le footer reste en bas
+   même sur une page courte. */
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--couleur-fond);
+    color: var(--couleur-texte);
+    font-family: var(--police-texte);
+    font-size: var(--taille-0);
+    line-height: var(--interligne);
+}
+
+main {
+    flex: 1;
+}
+
+/* --- Titres --- */
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--police-titres);
+    font-weight: 400;
+    line-height: var(--interligne-titres);
+    color: var(--couleur-accent);
+    text-wrap: balance; /* répartit mieux les mots sur plusieurs lignes */
+}
+
+h1 { font-size: var(--taille-4); }
+h2 { font-size: var(--taille-3); }
+h3 { font-size: var(--taille-2); }
+h4 { font-size: var(--taille-1); }
+
+p {
+    max-width: var(--largeur-texte);
+    text-wrap: pretty; /* évite un mot seul sur la dernière ligne */
+}
+
+/* --- Liens --- */
+a {
+    color: var(--couleur-accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-thickness var(--duree);
+}
+
+a:hover {
+    text-decoration-thickness: 2px;
+}
+
+/* --- Focus clavier : visible, mais seulement au clavier (pas au clic) --- */
+:focus-visible {
+    outline: 3px solid var(--couleur-accent);
+    outline-offset: 3px;
+}
+
+::selection {
+    background-color: var(--couleur-bordeaux);
+    color: var(--couleur-creme);
+}
+
+/* --- Utilitaires d'accessibilité --- */
+
+/* Masque un texte à l'écran tout en le laissant aux lecteurs d'écran */
+.visuellement-cache {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* « Aller au contenu » : caché hors écran, apparaît quand on y arrive au clavier */
+.lien-evitement {
+    position: absolute;
+    top: 0;
+    left: var(--espace-s);
+    z-index: 100;
+    padding: var(--espace-xs) var(--espace-s);
+    background-color: var(--couleur-bordeaux);
+    color: var(--couleur-creme);
+    transform: translateY(-120%);
+    transition: transform var(--duree);
+}
+
+.lien-evitement:focus {
+    transform: translateY(var(--espace-xs));
+}
+
+/* --- Mouvement --- */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* Si l'utilisateur a demandé moins d'animations dans son système, on les coupe */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

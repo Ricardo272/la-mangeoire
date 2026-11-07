@@ -1,0 +1,165 @@
+/* ==========================================================================
+   Mise en page : conteneur, en-tête, navigation, contenu, pied de page.
+   Mobile d'abord : les styles de base visent le téléphone,
+   les @media (min-width) ajoutent ce qui change sur les écrans plus larges.
+   ========================================================================== */
+
+/* --- Conteneur : centré, jamais plus large que --largeur-contenu,
+   avec une marge latérale qui ne descend pas sous 16px --- */
+.conteneur {
+    width: min(100% - 2 * var(--marge-laterale), var(--largeur-contenu));
+    margin-inline: auto;
+}
+
+/* ==========================================================================
+   En-tête
+   ========================================================================== */
+.entete {
+    padding-block: var(--espace-m) var(--espace-s);
+    border-bottom: 1px solid var(--couleur-filet);
+}
+
+.entete__interieur {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espace-s);
+}
+
+.entete__logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.entete__nom {
+    font-family: var(--police-titres);
+    font-size: var(--taille-2);
+    color: var(--couleur-accent);
+}
+
+.entete__depuis {
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--couleur-texte-doux);
+}
+
+@media (min-width: 48em) {
+    .entete__interieur {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .entete__logo {
+        align-items: flex-start;
+    }
+}
+
+/* ==========================================================================
+   Navigation principale (en simple liste pour l'instant ; menu burger en phase 2)
+   ========================================================================== */
+.nav-principale__liste {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 var(--espace-m);
+    padding: 0;
+    list-style: none;
+}
+
+.nav-principale__lien {
+    display: inline-block;
+    padding-block: 0.6rem; /* zone de clic confortable au doigt */
+    border-bottom: 2px solid transparent;
+    color: var(--couleur-texte);
+    text-decoration: none;
+    transition: border-color var(--duree), color var(--duree);
+}
+
+.nav-principale__lien:hover {
+    border-bottom-color: var(--couleur-accent);
+}
+
+/* Page en cours : bordeaux, soulignée d'un filet laiton */
+.nav-principale__lien[aria-current="page"] {
+    color: var(--couleur-accent);
+    border-bottom-color: var(--couleur-filet);
+}
+
+/* ==========================================================================
+   Contenu
+   ========================================================================== */
+main {
+    padding-block: var(--espace-xl);
+}
+
+/* ==========================================================================
+   Pied de page : fond noir, double filet laiton en haut
+   ========================================================================== */
+.pied {
+    padding-block: var(--espace-xl) var(--espace-m);
+    border-top: 4px double var(--couleur-filet);
+    background-color: var(--couleur-noir);
+    color: var(--couleur-creme);
+}
+
+.pied a {
+    color: var(--couleur-creme);
+}
+
+/* Sur fond noir, le contour bordeaux serait invisible : on passe au laiton */
+.pied :focus-visible {
+    outline-color: var(--couleur-laiton);
+}
+
+/* Grille « intrinsèque » : autant de colonnes de 13rem minimum que la largeur
+   le permet. Pas besoin de media queries, et jamais de colonne trop étroite. */
+.pied__grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
+    gap: var(--espace-l);
+}
+
+.pied__nom {
+    font-family: var(--police-titres);
+    font-size: var(--taille-2);
+    line-height: 1;
+    margin-bottom: var(--espace-xs);
+}
+
+/* Petits intitulés en capitales laiton (lisible sur le noir : 5,6:1) */
+.pied__titre {
+    margin-bottom: var(--espace-xs);
+    font-family: var(--police-texte);
+    font-size: var(--taille-petite);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--couleur-laiton);
+}
+
+.pied address {
+    font-style: normal;
+}
+
+.pied__liste {
+    display: grid;
+    gap: var(--espace-xs);
+    padding: 0;
+    list-style: none;
+}
+
+.pied__copyright {
+    max-width: none;
+    width: min(100% - 2 * var(--marge-laterale), var(--largeur-contenu));
+    margin: var(--espace-l) auto 0;
+    padding-top: var(--espace-m);
+    border-top: 1px solid color-mix(in srgb, var(--couleur-laiton) 40%, transparent);
+    font-size: var(--taille-petite);
+    text-align: center;
+    color: color-mix(in srgb, var(--couleur-creme) 75%, var(--couleur-noir));
+}
