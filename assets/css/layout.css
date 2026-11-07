@@ -11,6 +11,11 @@
     margin-inline: auto;
 }
 
+/* Variante étroite, pour les pages ou sections surtout composées de texte */
+.conteneur--etroit {
+    width: min(100% - 2 * var(--marge-laterale), 48rem);
+}
+
 /* ==========================================================================
    En-tête
    ========================================================================== */

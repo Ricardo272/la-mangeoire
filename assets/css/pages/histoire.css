@@ -1,0 +1,249 @@
+/* ==========================================================================
+   Page « Notre histoire »
+   ========================================================================== */
+
+
+/* ==========================================================================
+   Introduction
+   ========================================================================== */
+.histoire-intro {
+    padding-bottom: 0;
+    text-align: center;
+}
+
+.histoire-intro h1 {
+    margin-top: var(--espace-xs);
+    font-size: var(--taille-4);
+}
+
+.histoire-intro__chapeau {
+    margin: var(--espace-m) auto 0;
+    font-size: var(--taille-1);
+    line-height: 1.5;
+    color: var(--couleur-texte-doux);
+}
+
+
+/* ==========================================================================
+   Frise chronologique
+   Un filet laiton vertical à gauche (::before de la liste) ;
+   chaque étape est marquée d'un losange posé sur ce filet (::before de l'étape).
+   ========================================================================== */
+.frise {
+    --decalage: 2.25rem;   /* espace entre le filet et le texte */
+    --taille-losange: 0.9rem;
+
+    position: relative;
+    display: grid;
+    gap: clamp(3rem, 2rem + 5vw, 6rem);
+    padding: 0;
+    list-style: none;
+}
+
+.frise::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0;
+    left: calc(var(--taille-losange) / 2);
+    width: 1px;
+    background: linear-gradient(to bottom, var(--couleur-filet) 85%, transparent);
+}
+
+.frise__etape {
+    position: relative;
+    display: grid;
+    gap: var(--espace-m);
+    padding-left: var(--decalage);
+}
+
+/* Le losange, centré sur le filet, à hauteur de l'année */
+.frise__etape::before {
+    content: "";
+    position: absolute;
+    top: 0.75rem;
+    left: 0;
+    width: var(--taille-losange);
+    height: var(--taille-losange);
+    border: 1px solid var(--couleur-filet);
+    background-color: var(--couleur-fond);
+    transform: rotate(45deg);
+}
+
+.frise__jalon {
+    font-family: var(--police-titres);
+    font-size: var(--taille-3);
+    line-height: 1.1;
+    color: var(--couleur-accent);
+}
+
+.frise__corps {
+    display: grid;
+    gap: var(--espace-l);
+    align-items: start;
+}
+
+.frise__texte {
+    display: grid;
+    gap: var(--espace-s);
+}
+
+.frise__texte h2 {
+    font-size: var(--taille-2);
+}
+
+.frise__photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
+    gap: var(--espace-m);
+    align-items: start;
+}
+
+/* Sur grand écran : texte à gauche, photos à droite */
+@media (min-width: 56em) {
+    .frise {
+        --decalage: 4rem;
+    }
+
+    .frise__corps {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--espace-xl);
+    }
+}
+
+
+/* ==========================================================================
+   Photos anciennes : tirage papier à bord clair + filtre sépia
+   Le filtre harmonise toutes les photos, même si les originales
+   n'ont pas exactement la même teinte.
+   ========================================================================== */
+.photo-ancienne {
+    display: grid;
+    gap: var(--espace-xs);
+}
+
+.photo-ancienne img {
+    padding: 0.6rem;
+    background-color: color-mix(in srgb, var(--couleur-creme) 40%, white);
+    box-shadow:
+        0 1px 2px color-mix(in srgb, var(--couleur-noir) 15%, transparent),
+        0 0.75rem 1.5rem -0.75rem color-mix(in srgb, var(--couleur-noir) 35%, transparent);
+    filter: sepia(0.6) contrast(1.05);
+}
+
+/* Photo d'aujourd'hui : noir et blanc */
+.photo-ancienne--nb img {
+    filter: grayscale(1) contrast(1.05);
+}
+
+.photo-ancienne figcaption {
+    font-family: var(--police-titres);
+    font-style: italic;
+    font-size: var(--taille-petite);
+    color: var(--couleur-texte-doux);
+}
+
+
+/* ==========================================================================
+   Les toiles des habitués : galerie, cadre « doré » à double filet
+   Les toiles restent en couleur (ce sont des tableaux, pas des photos d'époque).
+   ========================================================================== */
+.toiles {
+    display: grid;
+    gap: var(--espace-m);
+    margin-top: var(--espace-m);
+}
+
+.toiles__titre {
+    font-size: var(--taille-1);
+}
+
+.toiles__liste {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--espace-m);
+    padding: 0;
+    list-style: none;
+}
+
+@media (min-width: 48em) {
+    .toiles__liste {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.toile {
+    display: grid;
+    gap: var(--espace-xs);
+}
+
+.toile img {
+    padding: 0.35rem;
+    border: 4px double var(--couleur-filet);
+    background-color: var(--couleur-noir);
+}
+
+.toile figcaption {
+    font-size: var(--taille-petite);
+    line-height: 1.4;
+    color: var(--couleur-texte-doux);
+}
+
+.toile cite {
+    font-family: var(--police-titres);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--couleur-texte);
+}
+
+
+/* ==========================================================================
+   Citation de Lucas (dans un .encadre)
+   ========================================================================== */
+.citation {
+    display: grid;
+    gap: var(--espace-s);
+    margin-top: var(--espace-s);
+}
+
+.citation p {
+    font-family: var(--police-titres);
+    font-style: italic;
+    font-size: var(--taille-1);
+    line-height: 1.4;
+    color: var(--couleur-accent);
+}
+
+.citation footer {
+    font-size: var(--taille-petite);
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--couleur-texte-doux);
+}
+
+.citation footer::before {
+    content: "— ";
+}
+
+
+/* ==========================================================================
+   Conclusion
+   ========================================================================== */
+.histoire-suite {
+    padding-top: 0;
+    text-align: center;
+}
+
+.histoire-suite h2 {
+    margin-bottom: var(--espace-s);
+}
+
+.histoire-suite p {
+    margin-inline: auto;
+}
+
+.histoire-suite .groupe-boutons {
+    justify-content: center;
+    margin-top: var(--espace-m);
+}
