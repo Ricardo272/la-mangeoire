@@ -1,0 +1,11 @@
+# Identifiants de la base de données : jamais dans Git
+config/config.local.php
+
+# Fichiers système
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Éditeurs
+.vscode/
+.idea/
