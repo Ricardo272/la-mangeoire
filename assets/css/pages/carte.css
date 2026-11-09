@@ -1,0 +1,246 @@
+/* ==========================================================================
+   Page « La carte »
+   ========================================================================== */
+
+
+/* --- Introduction --- */
+.carte-intro {
+    padding-bottom: 0;
+    text-align: center;
+}
+
+.carte-intro h1 {
+    margin-top: var(--espace-xs);
+    font-size: var(--taille-3);
+}
+
+.carte-intro__chapeau {
+    margin: var(--espace-m) auto 0;
+    font-size: var(--taille-1);
+    line-height: 1.5;
+    color: var(--couleur-texte-doux);
+}
+
+
+/* ==========================================================================
+   Ardoise + formule du midi + légende
+   ========================================================================== */
+.carte-du-jour__grille {
+    display: grid;
+    gap: var(--espace-xl);
+    align-items: center;
+}
+
+.carte-du-jour__cote {
+    display: grid;
+    gap: var(--espace-l);
+}
+
+@media (min-width: 56em) {
+    .carte-du-jour__grille {
+        grid-template-columns: minmax(0, 30rem) minmax(0, 24rem);
+        justify-content: center;
+    }
+}
+
+.formule {
+    display: grid;
+    gap: var(--espace-xs);
+    justify-items: center;
+    text-align: center;
+}
+
+.formule__nom {
+    font-size: var(--taille-2);
+}
+
+.formule__prix {
+    font-family: var(--police-titres);
+    font-size: var(--taille-3);
+    line-height: 1;
+    color: var(--couleur-accent);
+}
+
+.formule__conditions {
+    font-size: var(--taille-petite);
+    color: var(--couleur-texte-doux);
+}
+
+/* Légende des mentions */
+.legende {
+    display: grid;
+    gap: var(--espace-s);
+}
+
+.legende dd {
+    margin: 0.15rem 0 0;
+    font-size: var(--taille-petite);
+    color: var(--couleur-texte-doux);
+}
+
+
+/* ==========================================================================
+   Mentions « Recette de Josette » / « Touche de Lucas »
+   Petites capitales bordeaux, précédées d'un signe : ◆ pour Josette, ✦ pour Lucas.
+   ========================================================================== */
+.mention {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--couleur-accent);
+}
+
+.mention--josette::before { content: "◆ "; }
+.mention--lucas::before   { content: "✦ "; }
+
+
+/* ==========================================================================
+   Barre des rubriques : reste collée en haut pendant le défilement
+   ========================================================================== */
+.carte-rubriques {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-block: 1px solid var(--couleur-filet);
+    background-color: var(--couleur-fond);
+}
+
+/* Sur un écran étroit, la liste défile horizontalement plutôt que de passer à la ligne */
+.carte-rubriques__liste {
+    display: flex;
+    gap: var(--espace-s) var(--espace-m);
+    justify-content: safe center; /* centré, sauf si ça déborde */
+    padding: 0;
+    overflow-x: auto;
+    list-style: none;
+    scrollbar-width: none;
+}
+
+.carte-rubriques a {
+    display: block;
+    padding-block: 0.8rem;
+    color: var(--couleur-texte);
+    font-size: 0.95rem; /* les quatre rubriques tiennent sur un écran de 375px */
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.carte-rubriques a:hover {
+    color: var(--couleur-accent);
+}
+
+
+/* ==========================================================================
+   Rubriques et plats
+   ========================================================================== */
+.carte-contenu {
+    padding-block: var(--espace-xl);
+}
+
+.carte-rubrique {
+    /* Quand on saute à #desserts, le titre ne se cache pas sous la barre collante */
+    scroll-margin-top: 4rem;
+}
+
+.carte-rubrique + .carte-rubrique {
+    margin-top: var(--espace-xxl);
+}
+
+.carte-rubrique__titre {
+    text-align: center;
+}
+
+.carte-rubrique .filet--orne {
+    max-width: 14rem;
+    margin: var(--espace-s) auto var(--espace-l);
+}
+
+.plats {
+    display: grid;
+    gap: var(--espace-m);
+    padding: 0;
+    list-style: none;
+}
+
+.plat {
+    display: grid;
+    gap: 0.2rem;
+}
+
+/* Nom ··········· prix : trois éléments alignés sur la dernière ligne du nom */
+.plat__ligne {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.plat__nom {
+    font-size: var(--taille-1);
+    line-height: 1.25;
+}
+
+/* Les pointillés prennent toute la place restante (flex: 1) */
+.plat__points {
+    flex: 1;
+    min-width: 1.5rem;
+    border-bottom: 2px dotted color-mix(in srgb, var(--couleur-texte) 30%, transparent);
+    transform: translateY(-0.3em);
+}
+
+.plat__prix {
+    flex-shrink: 0;
+    font-family: var(--police-titres);
+    font-size: var(--taille-1);
+    line-height: 1.25;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.plat__prix small {
+    font-family: var(--police-texte);
+    font-size: var(--taille-petite);
+    color: var(--couleur-texte-doux);
+}
+
+.plat__description {
+    color: var(--couleur-texte-doux);
+}
+
+.carte-notes {
+    display: grid;
+    gap: var(--espace-xs);
+    margin-top: var(--espace-xxl);
+    padding-top: var(--espace-m);
+    border-top: 1px solid var(--couleur-filet);
+    font-size: var(--taille-petite);
+    color: var(--couleur-texte-doux);
+}
+
+
+/* --- Base indisponible --- */
+.carte-indisponible {
+    display: grid;
+    gap: var(--espace-s);
+    text-align: center;
+}
+
+.carte-indisponible p {
+    margin-inline: auto;
+}
+
+
+/* --- Réserver --- */
+.carte-reserver {
+    padding-top: 0;
+    text-align: center;
+}
+
+.carte-reserver h2 {
+    margin-bottom: var(--espace-m);
+}
+
+.carte-reserver .groupe-boutons {
+    justify-content: center;
+}

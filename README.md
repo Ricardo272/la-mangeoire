@@ -24,9 +24,16 @@ et aujourd'hui Lucas, le petit-fils.
 
 1. Placer le projet dans `C:\laragon\www\la-mangeoire`
 2. Dans Laragon, cliquer sur **Recharger** : le site est servi sur `http://la-mangeoire.test`
-3. *(à venir)* Créer la base avec `sql/schema.sql` puis `sql/seed.sql`
-4. *(à venir)* Copier `config/config.example.php` en `config/config.local.php`
-   et y renseigner les identifiants de la base
+3. Base de données (MySQL de Laragon, en `root`) :
+   - choisir un mot de passe et le mettre à la place de `CHANGER_CE_MOT_DE_PASSE`
+     dans `sql/creation-base.sql`, puis exécuter ce fichier (base + utilisateur dédié) ;
+   - exécuter `sql/schema.sql` (tables) puis `sql/seed.sql` (données de démonstration)
+     dans la base `la_mangeoire`.
+4. Copier `config/config.example.php` en `config/config.local.php`
+   et y mettre le même mot de passe (ce fichier est exclu de Git).
+
+Les ardoises de démonstration couvrent 14 jours à partir de l'import :
+relancer `sql/seed.sql` pour les prolonger.
 
 ## Structure
 
@@ -50,7 +57,7 @@ la-mangeoire/
 - [x] Phase 1 : fondations (variables CSS, includes)
 - [x] Phase 2 : composants (ardoise, filets dorés, boutons, menu)
 - [x] Phase 3 : pages sans base de données (accueil, histoire, mentions légales, 404)
-- [ ] Phase 4 : base de données (carte, ardoise, badge « Ouvert »)
+- [x] Phase 4 : base de données (carte, ardoise, badge « Ouvert »)
 - [ ] Phase 5 : Venir nous voir et réservation
   (prévoir la suppression des réservations 3 mois après le repas, annoncée dans les mentions légales)
 - [ ] Phase 6 : finitions (animations, accessibilité, SEO)

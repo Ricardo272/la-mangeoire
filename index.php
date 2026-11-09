@@ -5,13 +5,9 @@ $pageId  = 'accueil';
 $pageCss = 'accueil';
 // Pas de $pageTitle : l'accueil a un titre complet par défaut (voir head.php).
 
-// Ardoise du jour — écrite en dur pour l'instant, viendra de la base en phase 4.
-$ardoise = [
-    'plat'        => 'Blanquette de veau à l\'ancienne',
-    'description' => 'riz pilaf & champignons de Paris',
-    'prix'        => 19,
-    'date'        => new DateTimeImmutable(),
-];
+// Données de la page, lues dans la base AVANT d'afficher quoi que ce soit
+require_once __DIR__ . '/includes/donnees.php';
+$ardoise = ardoiseDuJour(); // null s'il n'y a pas d'ardoise aujourd'hui
 
 require_once __DIR__ . '/includes/head.php';
 require_once __DIR__ . '/includes/header.php';
@@ -155,6 +151,7 @@ $horaires = resumerHoraires($site['horaires']);
             </div>
 
             <div>
+                <?php require __DIR__ . '/includes/badge-ouverture.php'; ?>
                 <ul class="bandeau-pratique__horaires" role="list">
 <?php foreach ($horaires['ouvertures'] as $ligne): ?>
                     <li><strong><?= e($ligne['jours']) ?></strong> : <?= e(implode(' et ', $ligne['creneaux'])) ?></li>

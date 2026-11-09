@@ -159,6 +159,10 @@
     color: var(--couleur-laiton);
 }
 
+.pied .badge-ouverture {
+    margin-bottom: var(--espace-s);
+}
+
 .pied address {
     font-style: normal;
 }

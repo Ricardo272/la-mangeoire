@@ -227,6 +227,10 @@
     align-items: end;
 }
 
+.bandeau-pratique .badge-ouverture {
+    margin-bottom: var(--espace-s);
+}
+
 .bandeau-pratique__horaires {
     display: grid;
     gap: var(--espace-xs);

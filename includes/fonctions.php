@@ -131,6 +131,47 @@ function formaterHeure(string $heure): string
 }
 
 /**
+ * Le bistrot est-il ouvert en ce moment ? Et sinon, quand rouvre-t-il ?
+ *
+ * Retourne par exemple :
+ *   ['ouvert' => true,  'texte' => 'Ouvert · jusqu\'à 14h30']
+ *   ['ouvert' => false, 'texte' => 'Fermé · réouverture à 19h']
+ *   ['ouvert' => false, 'texte' => 'Fermé · ouvre demain à 12h']
+ *   ['ouvert' => false, 'texte' => 'Fermé · ouvre mardi à 12h']
+ */
+function etatOuverture(array $horaires, ?DateTimeImmutable $maintenant = null): array
+{
+    $maintenant ??= new DateTimeImmutable();
+    $noms  = [1 => 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+    $jour  = (int) $maintenant->format('N');
+    // Les heures au format « HH:MM » se comparent correctement comme du texte
+    $heure = $maintenant->format('H:i');
+
+    // 1. Aujourd'hui : en plein service, ou un service plus tard dans la journée ?
+    foreach ($horaires[$jour] ?? [] as $numero => [$debut, $fin]) {
+        if ($heure >= $debut && $heure < $fin) {
+            return ['ouvert' => true, 'texte' => 'Ouvert · jusqu\'à ' . formaterHeure($fin)];
+        }
+        if ($heure < $debut) {
+            // Le matin : « ouvre à 12h » ; entre deux services : « réouverture à 19h »
+            $verbe = $numero === 0 ? 'ouvre à ' : 'réouverture à ';
+            return ['ouvert' => false, 'texte' => 'Fermé · ' . $verbe . formaterHeure($debut)];
+        }
+    }
+
+    // 2. Sinon, le premier jour suivant qui a au moins un service
+    for ($decalage = 1; $decalage <= 7; $decalage++) {
+        $suivant = ($jour + $decalage - 1) % 7 + 1; // après dimanche (7), on repart à lundi (1)
+        if (!empty($horaires[$suivant])) {
+            $quand = $decalage === 1 ? 'demain' : $noms[$suivant];
+            return ['ouvert' => false, 'texte' => 'Fermé · ouvre ' . $quand . ' à ' . formaterHeure($horaires[$suivant][0][0])];
+        }
+    }
+
+    return ['ouvert' => false, 'texte' => 'Fermé'];
+}
+
+/**
  * Regroupe les jours consécutifs qui ont les mêmes horaires.
  *
  * Retourne par exemple :

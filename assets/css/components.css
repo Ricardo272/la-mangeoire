@@ -265,6 +265,42 @@
 
 
 /* ==========================================================================
+   Badge « Ouvert maintenant » — pour fonds sombres (noir, bordeaux)
+   Pastille laiton pleine quand c'est ouvert, simple cercle quand c'est fermé.
+   ========================================================================== */
+.badge-ouverture {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    max-width: none;
+    padding: 0.3rem 0.85rem;
+    border: 1px solid color-mix(in srgb, var(--couleur-laiton) 60%, transparent);
+    border-radius: 999px;
+    font-size: var(--taille-petite);
+    font-weight: 500;
+}
+
+.badge-ouverture__pastille {
+    flex-shrink: 0;
+    width: 0.55rem;
+    height: 0.55rem;
+    border: 1px solid var(--couleur-laiton);
+    border-radius: 50%;
+}
+
+.badge-ouverture--ouvert .badge-ouverture__pastille {
+    background-color: var(--couleur-laiton);
+    animation: pastille-pulse 2.4s ease-in-out infinite;
+}
+
+/* Léger halo qui « respire » (coupé si l'utilisateur a demandé moins d'animations) */
+@keyframes pastille-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--couleur-laiton) 55%, transparent); }
+    50%      { box-shadow: 0 0 0 0.3rem transparent; }
+}
+
+
+/* ==========================================================================
    Prose : mise en forme des pages de texte long (mentions légales…)
    Les espacements suivent la hiérarchie : plus d'air avant un titre
    qu'entre deux paragraphes.

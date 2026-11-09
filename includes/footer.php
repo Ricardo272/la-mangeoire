@@ -25,6 +25,7 @@ $horaires = resumerHoraires($site['horaires']);
 
         <div class="pied__bloc">
             <h2 class="pied__titre">Horaires</h2>
+            <?php require __DIR__ . '/badge-ouverture.php'; ?>
             <ul class="pied__liste" role="list">
 <?php foreach ($horaires['ouvertures'] as $ligne): ?>
                 <li><?= e($ligne['jours']) ?><br><?= implode('<br>', array_map('e', $ligne['creneaux'])) ?></li>
