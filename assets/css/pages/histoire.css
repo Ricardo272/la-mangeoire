@@ -247,3 +247,86 @@
     justify-content: center;
     margin-top: var(--espace-m);
 }
+
+
+/* ==========================================================================
+   Agrandissement des toiles (<dialog>)
+   ========================================================================== */
+
+/* Bouton ajouté autour de chaque toile par main.js */
+.toile__bouton {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+}
+
+.toile__bouton img {
+    transition: transform var(--duree);
+}
+
+.toile__bouton:hover img {
+    transform: scale(1.02);
+}
+
+.agrandissement {
+    /* margin: auto centre la fenêtre ; il faut le rétablir car base.css met
+       toutes les marges à zéro (* { margin: 0 }) */
+    margin: auto;
+    max-width: min(92vw, 44rem);
+    max-height: 92vh;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--couleur-creme);
+}
+
+/* Le voile sombre derrière la fenêtre */
+.agrandissement::backdrop {
+    background-color: color-mix(in srgb, var(--couleur-noir) 88%, transparent);
+}
+
+.agrandissement__contenu {
+    display: grid;
+    gap: var(--espace-s);
+    justify-items: center;
+    padding: var(--espace-s);
+}
+
+.agrandissement__image {
+    /* largeur et hauteur « auto » + maximums : le navigateur réduit l'image
+       en gardant ses proportions (données par les attributs width/height) */
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 72vh;
+    padding: 0.5rem;
+    border: 6px double var(--couleur-laiton);
+    background-color: var(--couleur-noir);
+}
+
+.agrandissement__legende {
+    text-align: center;
+    color: var(--couleur-creme);
+}
+
+.agrandissement__legende cite {
+    font-family: var(--police-titres);
+    font-size: var(--taille-1);
+}
+
+/* Le contour de focus doit rester visible sur le voile sombre */
+.agrandissement :focus-visible {
+    outline-color: var(--couleur-laiton);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .agrandissement[open] {
+        animation: agrandissement-apparition 250ms ease-out;
+    }
+}
+
+@keyframes agrandissement-apparition {
+    from { opacity: 0; transform: scale(0.96); }
+}

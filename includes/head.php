@@ -8,6 +8,7 @@
  *   $pageDescription description pour les moteurs de recherche
  *   $pageCss         nom d'une feuille propre à la page, dans assets/css/pages/
  *   $pageNoIndex     true pour demander aux moteurs de ne pas indexer la page
+ *   $pageRestaurant  true pour ajouter la fiche « Restaurant » pour Google (accueil)
  */
 require_once __DIR__ . '/fonctions.php';
 
@@ -20,6 +21,10 @@ $pageCss         = $pageCss ?? null;
 $titreComplet = isset($pageTitle)
     ? $pageTitle . ' — ' . $site['nom']
     : $site['nom'] . ' — Bistrot à Montmartre depuis ' . $site['depuis'];
+
+// Adresse officielle de la page (sans paramètres) : « /index.php » devient « / »
+$fichierPage = basename($_SERVER['SCRIPT_NAME']);
+$urlCanonique = urlAbsolue($fichierPage === 'index.php' ? '' : $fichierPage);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -31,6 +36,34 @@ $titreComplet = isset($pageTitle)
     <meta name="theme-color" content="#6B1E2B">
 <?php if (!empty($pageNoIndex)): ?>
     <meta name="robots" content="noindex, nofollow">
+<?php else: ?>
+    <!-- Adresse officielle de la page, pour éviter les doublons dans Google -->
+    <link rel="canonical" href="<?= e($urlCanonique) ?>">
+<?php endif; ?>
+
+    <!-- Icônes : SVG pour les navigateurs récents, PNG pour les écrans d'accueil iOS -->
+    <link rel="icon" href="<?= e(url('favicon.svg')) ?>" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="<?= e(url('apple-touch-icon.png')) ?>">
+
+    <!-- Open Graph : aperçu quand le lien est partagé (LinkedIn, WhatsApp, Facebook…) -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="<?= e($site['nom']) ?>">
+    <meta property="og:title" content="<?= e($titreComplet) ?>">
+    <meta property="og:description" content="<?= e($pageDescription) ?>">
+    <meta property="og:url" content="<?= e($urlCanonique) ?>">
+    <meta property="og:image" content="<?= e(urlAbsolue('assets/img/partage.jpg')) ?>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="<?= e($site['nom'] . ' — ' . $site['slogan']) ?>">
+    <meta name="twitter:card" content="summary_large_image">
+<?php if (!empty($pageRestaurant)): ?>
+
+    <!-- Fiche « Restaurant » pour Google (données structurées schema.org) -->
+    <script type="application/ld+json">
+<?= donneesStructurees($site) ?>
+
+    </script>
 <?php endif; ?>
 
     <!-- Signale au CSS que JavaScript fonctionne. Sans cette classe, le menu

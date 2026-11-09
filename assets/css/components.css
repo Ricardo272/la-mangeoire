@@ -579,3 +579,66 @@ textarea.champ__saisie {
 .nav-bouton[aria-expanded="true"] .nav-bouton__icone::after {
     transform: translateY(-6px) rotate(-45deg);
 }
+
+
+/* ==========================================================================
+   Animations au défilement (classes posées par main.js)
+   Sans JavaScript, ou si l'utilisateur a demandé moins d'animations,
+   aucune classe n'est posée : tout reste simplement visible.
+   ========================================================================== */
+
+/* Les filets se dessinent : de gauche à droite, ou depuis le centre s'ils sont centrés */
+.anime-filet {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.anime-filet.filet--orne,
+.anime-filet.filet--court {
+    transform-origin: center;
+}
+
+.anime-filet.est-visible {
+    transform: scaleX(1);
+}
+
+/* Les titres apparaissent en fondu, en remontant légèrement */
+.anime-titre {
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.anime-titre.est-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* À l'impression, tout doit être visible, même ce qui n'a pas encore défilé */
+@media print {
+    .anime-filet,
+    .anime-titre {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+
+/* --- Utilitaires --- */
+/* Élément utile seulement si JavaScript fonctionne (ex. bouton « Imprimer ») :
+   masqué tant que la classe .js n'est pas sur <html> */
+html:not(.js) .js-seulement {
+    display: none !important;
+}
+
+/* Élément visible seulement sur papier */
+.impression-seulement {
+    display: none;
+}
+
+@media print {
+    .impression-seulement {
+        display: block;
+    }
+}

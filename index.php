@@ -3,6 +3,7 @@
 
 $pageId  = 'accueil';
 $pageCss = 'accueil';
+$pageRestaurant = true; // fiche « Restaurant » pour Google, sur l'accueil seulement
 // Pas de $pageTitle : l'accueil a un titre complet par défaut (voir head.php).
 
 // Données de la page, lues dans la base AVANT d'afficher quoi que ce soit

@@ -15,6 +15,15 @@ return [
     // est un jour hébergé dans un sous-dossier (ex. « /portfolio/la-mangeoire/ »).
     'base_url' => '/',
 
+    // Adresse complète du site, sans « / » final : sert aux liens absolus
+    // (lien canonique, partage sur les réseaux, données pour Google).
+    // À changer à la mise en ligne, comme robots.txt et sitemap.xml.
+    'url_absolue' => 'http://la-mangeoire.test',
+
+    // Pour les données structurées (Google)
+    'cuisine'    => ['Française', 'Bistrot'],
+    'gamme_prix' => '€€',
+
     'description' => 'La Mangeoire, bistrot traditionnel de Montmartre depuis 1952 : '
                    . 'zinc d\'origine, banquettes rouges et bœuf bourguignon de Josette.',
 

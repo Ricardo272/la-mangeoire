@@ -36,6 +36,15 @@ et aujourd'hui Lucas, le petit-fils.
 Les ardoises de démonstration couvrent 14 jours à partir de l'import :
 relancer `sql/seed.sql` pour les prolonger.
 
+## Images générées
+
+L'image de partage (`assets/img/partage.jpg`), `favicon.ico` et `apple-touch-icon.png`
+sont produites par un script PHP (bibliothèque GD) :
+
+```
+php outils/generer-images.php
+```
+
 ## Structure
 
 ```
@@ -61,11 +70,13 @@ la-mangeoire/
 - [x] Phase 4 : base de données (carte, ardoise, badge « Ouvert »)
 - [x] Phase 5 : Venir nous voir et réservation (plan SVG, formulaire, anti-robots sans cookie,
   suppression automatique des réservations 3 mois après le repas)
-- [ ] Phase 6 : finitions (animations, accessibilité, SEO)
+- [x] Phase 6 : finitions (agrandissement des toiles, animations, rubrique en cours, carte imprimable,
+  JSON-LD, Open Graph, favicon, robots/sitemap, cache et compression, contrôle d'accessibilité)
 - [ ] Phase 7 : tableau de bord
 - [ ] Phase 8 : mise en ligne
   (compléter l'hébergeur et le contact dans les mentions légales ; vérifier le numéro fictif ;
-  retirer dev/composants.php)
+  retirer dev/composants.php ; remplacer le domaine dans config/site.php (url_absolue),
+  robots.txt et sitemap.xml ; tester la fiche Google avec l'outil « Résultats enrichis »)
 
 ## Crédits
 

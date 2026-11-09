@@ -182,6 +182,21 @@ require_once __DIR__ . '/includes/header.php';
         </div>
     </section>
 
+    <!-- ===================================================== Agrandissement des toiles
+         Fenêtre native <dialog> : le navigateur gère la touche Échap, le voile
+         et le blocage du reste de la page. Remplie et ouverte par main.js ;
+         sans JavaScript, elle n'apparaît jamais. -->
+    <dialog class="agrandissement" id="agrandissement" aria-label="Toile agrandie">
+        <div class="agrandissement__contenu">
+            <!-- L'image est ajoutée par main.js (une <img> sans src serait invalide) -->
+            <p class="agrandissement__legende"></p>
+            <!-- method="dialog" : ce formulaire ferme la fenêtre, sans aucun script -->
+            <form method="dialog">
+                <button class="bouton bouton--clair agrandissement__fermer" type="submit">Fermer</button>
+            </form>
+        </div>
+    </dialog>
+
     <!-- ===================================================== Conclusion -->
     <section class="section histoire-suite" aria-labelledby="titre-suite">
         <div class="conteneur conteneur--etroit">

@@ -244,3 +244,104 @@
 .carte-reserver .groupe-boutons {
     justify-content: center;
 }
+
+
+/* --- Rubrique en cours (posée par main.js) --- */
+.carte-rubriques a[aria-current] {
+    color: var(--couleur-accent);
+    box-shadow: inset 0 -2px 0 var(--couleur-filet);
+}
+
+.carte-notes .bouton {
+    justify-self: start;
+    margin-top: var(--espace-s);
+}
+
+
+/* ==========================================================================
+   Version imprimable : noir sur blanc, sans navigation ni décor inutile
+   ========================================================================== */
+@media print {
+    @page {
+        margin: 1.5cm;
+    }
+
+    body {
+        background: white;
+        color: black;
+        font-size: 11pt;
+    }
+
+    .lien-evitement,
+    .entete,
+    .pied,
+    .carte-rubriques,
+    .carte-reserver,
+    .carte-notes .bouton,
+    .legende {
+        display: none !important;
+    }
+
+    .section,
+    .carte-contenu {
+        padding-block: 1rem;
+    }
+
+    h1, h2, h3,
+    .mention,
+    .formule__prix {
+        color: black;
+    }
+
+    /* L'ardoise : sans fond noir (économie d'encre), simple cadre */
+    .ardoise {
+        aspect-ratio: auto;
+        max-width: none;
+        padding: 1.5rem;
+        background: none;
+        color: black;
+        box-shadow: none;
+        border: 1px solid black;
+    }
+
+    .ardoise::before {
+        display: none;
+    }
+
+    .ardoise > *,
+    .ardoise__titre,
+    .ardoise__date,
+    .ardoise__description,
+    .ardoise__message {
+        color: black;
+        text-shadow: none;
+    }
+
+    .ardoise__prix {
+        border-color: black;
+    }
+
+    .carte-du-jour__grille {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .carte-rubrique + .carte-rubrique {
+        margin-top: 2rem;
+    }
+
+    /* Ne pas couper un plat en deux entre deux pages, ni séparer un titre de la suite */
+    .plat {
+        break-inside: avoid;
+    }
+
+    .carte-rubrique__titre {
+        break-after: avoid;
+    }
+
+    .carte-impression {
+        margin-top: 0.5rem;
+        text-align: center;
+        font-size: 10pt;
+    }
+}

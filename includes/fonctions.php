@@ -49,6 +49,73 @@ function url(string $chemin = ''): string
 }
 
 /**
+ * Adresse complète : urlAbsolue('carte.php') → « http://la-mangeoire.test/carte.php ».
+ * Indispensable quand l'adresse est lue hors du site (Google, réseaux sociaux).
+ */
+function urlAbsolue(string $chemin = ''): string
+{
+    global $site;
+    return rtrim($site['url_absolue'], '/') . url($chemin);
+}
+
+/**
+ * Données structurées « Restaurant » (schema.org, format JSON-LD) :
+ * une fiche que Google lit pour afficher adresse, horaires, téléphone…
+ * Les horaires sont générés à partir de config/site.php.
+ */
+function donneesStructurees(array $site): string
+{
+    $joursAnglais = [1 => 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+    // Regroupe les jours par créneau : « 12:00-14:30 » => [Tuesday, Wednesday…]
+    $parCreneau = [];
+    foreach ($site['horaires'] as $jour => $creneaux) {
+        foreach ($creneaux as [$ouverture, $fermeture]) {
+            $parCreneau[$ouverture . '-' . $fermeture][] = $joursAnglais[$jour];
+        }
+    }
+
+    $horaires = [];
+    foreach ($parCreneau as $creneau => $jours) {
+        [$ouverture, $fermeture] = explode('-', $creneau);
+        $horaires[] = [
+            '@type'     => 'OpeningHoursSpecification',
+            'dayOfWeek' => $jours,
+            'opens'     => $ouverture,
+            'closes'    => $fermeture,
+        ];
+    }
+
+    $donnees = [
+        '@context'      => 'https://schema.org',
+        '@type'         => 'Restaurant',
+        'name'          => $site['nom'],
+        'description'   => $site['description'],
+        'slogan'        => $site['slogan'],
+        'url'           => urlAbsolue(),
+        'image'         => urlAbsolue('assets/img/partage.jpg'),
+        'telephone'     => lienTelephone($site['telephone']),
+        'email'         => $site['email'],
+        'foundingDate'  => (string) $site['depuis'],
+        'servesCuisine' => $site['cuisine'],
+        'priceRange'    => $site['gamme_prix'],
+        'hasMenu'       => urlAbsolue('carte.php'),
+        'acceptsReservations' => urlAbsolue('venir-nous-voir.php#reservation'),
+        'address'       => [
+            '@type'           => 'PostalAddress',
+            'streetAddress'   => $site['adresse']['rue'],
+            'postalCode'      => $site['adresse']['code_postal'],
+            'addressLocality' => $site['adresse']['ville'],
+            'addressCountry'  => 'FR',
+        ],
+        'openingHoursSpecification' => $horaires,
+    ];
+
+    // JSON_HEX_TAG : un « </script> » dans un texte ne pourrait pas fermer la balise
+    return json_encode($donnees, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_HEX_TAG);
+}
+
+/**
  * Adresse d'un fichier CSS ou JS, suivie de sa date de modification :
  * asset('assets/js/main.js') → « /assets/js/main.js?v=1762712345 ».
  * Quand le fichier change, l'adresse change : le navigateur ne peut plus
@@ -94,7 +161,8 @@ function image(string $chemin, string $alt, int $largeur, int $hauteur, string $
     $attributs .= $prioritaire ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"';
 
     if (is_file(__DIR__ . '/../assets/img/' . $chemin)) {
-        $src = url('assets/img/' . $chemin);
+        // Avec numéro de version : une photo remplacée est rechargée tout de suite
+        $src = asset('assets/img/' . $chemin);
     } else {
         $src = imageTemporaire($chemin, $alt, $largeur, $hauteur);
         $classe = trim($classe . ' image-temp');

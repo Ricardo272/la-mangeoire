@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Liste des pages à indexer. À la mise en ligne : remplacer le domaine. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url><loc>http://la-mangeoire.test/</loc></url>
+    <url><loc>http://la-mangeoire.test/histoire.php</loc></url>
+    <url><loc>http://la-mangeoire.test/carte.php</loc></url>
+    <url><loc>http://la-mangeoire.test/venir-nous-voir.php</loc></url>
+    <url><loc>http://la-mangeoire.test/mentions-legales.php</loc></url>
+</urlset>

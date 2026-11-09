@@ -35,6 +35,10 @@ require_once __DIR__ . '/includes/header.php';
                 La carte change peu, et c'est voulu. Les plats de Josette n'ont pas bougé
                 depuis 1952 ; Lucas y glisse quelques assiettes à lui, au fil des saisons.
             </p>
+            <!-- Sur papier seulement : où nous trouver -->
+            <p class="impression-seulement carte-impression">
+                <?= e($site['nom']) ?> · <?= e($site['adresse']['rue']) ?>, <?= e($site['adresse']['code_postal'] . ' ' . $site['adresse']['ville']) ?> · <?= e($site['telephone']) ?>
+            </p>
         </div>
     </section>
 
@@ -136,6 +140,7 @@ require_once __DIR__ . '/includes/header.php';
                 Allergènes : la liste des allergènes présents dans chaque plat est
                 disponible sur simple demande auprès de l'équipe.
             </p>
+            <button class="bouton bouton--contour js-seulement" type="button" data-imprimer>Imprimer la carte</button>
         </footer>
     </div>
 <?php endif; ?>
