@@ -30,7 +30,8 @@ et aujourd'hui Lucas, le petit-fils.
    - exécuter `sql/schema.sql` (tables) puis `sql/seed.sql` (données de démonstration)
      dans la base `la_mangeoire`.
 4. Copier `config/config.example.php` en `config/config.local.php`
-   et y mettre le même mot de passe (ce fichier est exclu de Git).
+   et y mettre le même mot de passe, ainsi qu'une clé secrète aléatoire
+   (`php -r "echo bin2hex(random_bytes(32));"`). Ce fichier est exclu de Git.
 
 Les ardoises de démonstration couvrent 14 jours à partir de l'import :
 relancer `sql/seed.sql` pour les prolonger.
@@ -58,8 +59,8 @@ la-mangeoire/
 - [x] Phase 2 : composants (ardoise, filets dorés, boutons, menu)
 - [x] Phase 3 : pages sans base de données (accueil, histoire, mentions légales, 404)
 - [x] Phase 4 : base de données (carte, ardoise, badge « Ouvert »)
-- [ ] Phase 5 : Venir nous voir et réservation
-  (prévoir la suppression des réservations 3 mois après le repas, annoncée dans les mentions légales)
+- [x] Phase 5 : Venir nous voir et réservation (plan SVG, formulaire, anti-robots sans cookie,
+  suppression automatique des réservations 3 mois après le repas)
 - [ ] Phase 6 : finitions (animations, accessibilité, SEO)
 - [ ] Phase 7 : tableau de bord
 - [ ] Phase 8 : mise en ligne

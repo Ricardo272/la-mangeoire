@@ -54,6 +54,6 @@ $horaires = resumerHoraires($site['horaires']);
     </p>
 </footer>
 
-<script src="<?= e(url('assets/js/main.js')) ?>" defer></script>
+<script src="<?= e(asset('assets/js/main.js')) ?>" defer></script>
 </body>
 </html>

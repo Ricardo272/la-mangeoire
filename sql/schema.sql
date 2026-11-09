@@ -1,14 +1,15 @@
 -- ==========================================================================
--- Structure de la base La Mangeoire — phase 4 (carte et ardoise)
+-- Structure de la base La Mangeoire
 -- À exécuter en root, dans la base la_mangeoire.
 -- ATTENTION : supprime les tables existantes et toutes leurs données.
 --
--- Viendront plus tard : reservations (phase 5), admins (phase 7).
+-- Viendra plus tard : admins (phase 7).
 -- ==========================================================================
 
 SET NAMES utf8mb4;
 
 -- On supprime d'abord les tables qui dépendent des autres (clés étrangères)
+DROP TABLE IF EXISTS reservations;
 DROP TABLE IF EXISTS ardoise;
 DROP TABLE IF EXISTS formules;
 DROP TABLE IF EXISTS plats;
@@ -81,4 +82,28 @@ CREATE TABLE ardoise (
     modifie_le   DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY uk_ardoise_date (date_jour)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- --------------------------------------------------------------------------
+-- Demandes de réservation (phase 5)
+-- Seulement les données utiles : pas d'adresse IP, pas de compte client.
+-- Supprimées automatiquement 3 mois après la date du repas
+-- (voir purgerAnciennesReservations() dans includes/reservation.php).
+-- --------------------------------------------------------------------------
+CREATE TABLE reservations (
+    id          INT UNSIGNED      NOT NULL AUTO_INCREMENT,
+    nom         VARCHAR(80)       NOT NULL,
+    telephone   VARCHAR(20)       NOT NULL,       -- enregistré au format « 06 12 34 56 78 »
+    email       VARCHAR(120)      NULL,           -- facultatif
+    date_repas  DATE              NOT NULL,
+    heure       TIME              NOT NULL,
+    couverts    TINYINT UNSIGNED  NOT NULL,
+    message     VARCHAR(500)      NULL,
+    statut      ENUM('en_attente', 'confirmee', 'annulee') NOT NULL DEFAULT 'en_attente',
+    cree_le     DATETIME          NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modifie_le  DATETIME          NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    -- Index : les recherches et le nettoyage se font par date de repas
+    KEY idx_reservations_date (date_repas)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

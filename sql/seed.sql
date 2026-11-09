@@ -12,6 +12,7 @@ SET NAMES utf8mb4;
 -- On désactive un instant le contrôle des clés étrangères pour pouvoir vider
 -- les tables dans n'importe quel ordre, puis on le réactive aussitôt.
 SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE reservations;
 TRUNCATE TABLE ardoise;
 TRUNCATE TABLE formules;
 TRUNCATE TABLE plats;

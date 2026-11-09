@@ -10,6 +10,25 @@ date_default_timezone_set('Europe/Paris');
 $site = require __DIR__ . '/../config/site.php';
 
 /**
+ * Configuration locale (config/config.local.php) : identifiants de la base,
+ * clé secrète. Lue une seule fois, puis gardée en mémoire.
+ */
+function configLocale(): array
+{
+    static $config = null;
+
+    if ($config === null) {
+        $fichier = __DIR__ . '/../config/config.local.php';
+        if (!is_file($fichier)) {
+            throw new RuntimeException('config/config.local.php introuvable : copier config.example.php.');
+        }
+        $config = require $fichier;
+    }
+
+    return $config;
+}
+
+/**
  * Échappe un texte avant de l'afficher dans le HTML.
  * Empêche qu'un texte contenant des balises soit interprété par le navigateur.
  */
@@ -27,6 +46,19 @@ function url(string $chemin = ''): string
 {
     global $site;
     return rtrim($site['base_url'], '/') . '/' . ltrim($chemin, '/');
+}
+
+/**
+ * Adresse d'un fichier CSS ou JS, suivie de sa date de modification :
+ * asset('assets/js/main.js') → « /assets/js/main.js?v=1762712345 ».
+ * Quand le fichier change, l'adresse change : le navigateur ne peut plus
+ * se servir d'une ancienne version gardée en cache.
+ */
+function asset(string $chemin): string
+{
+    $fichier = __DIR__ . '/../' . $chemin;
+    $version = is_file($fichier) ? filemtime($fichier) : 0;
+    return url($chemin) . '?v=' . $version;
 }
 
 /**

@@ -293,6 +293,20 @@
     animation: pastille-pulse 2.4s ease-in-out infinite;
 }
 
+/* Variante pour fond crème : pastille et contour bordeaux */
+.badge-ouverture--clair {
+    border-color: color-mix(in srgb, var(--couleur-bordeaux) 35%, transparent);
+    color: var(--couleur-texte);
+}
+
+.badge-ouverture--clair .badge-ouverture__pastille {
+    border-color: var(--couleur-bordeaux);
+}
+
+.badge-ouverture--clair.badge-ouverture--ouvert .badge-ouverture__pastille {
+    background-color: var(--couleur-bordeaux);
+}
+
 /* Léger halo qui « respire » (coupé si l'utilisateur a demandé moins d'animations) */
 @keyframes pastille-pulse {
     0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--couleur-laiton) 55%, transparent); }
@@ -334,6 +348,113 @@
     margin-top: var(--espace-l);
     font-size: var(--taille-petite);
     color: var(--couleur-texte-doux);
+}
+
+
+/* ==========================================================================
+   Formulaires
+   ========================================================================== */
+.formulaire {
+    display: grid;
+    gap: var(--espace-m);
+}
+
+/* Deux champs côte à côte sur écran large (ex. date + horaire) */
+.formulaire__ligne {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
+    gap: var(--espace-m);
+}
+
+.champ {
+    display: grid;
+    gap: 0.35rem;
+    align-content: start;
+}
+
+.champ__label {
+    font-weight: 600;
+}
+
+.champ__facultatif {
+    font-weight: 400;
+    color: var(--couleur-texte-doux);
+}
+
+.champ__aide {
+    font-size: var(--taille-petite);
+    color: var(--couleur-texte-doux);
+}
+
+.champ__saisie {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid color-mix(in srgb, var(--couleur-texte) 45%, transparent);
+    border-radius: var(--rayon);
+    background-color: color-mix(in srgb, var(--couleur-creme) 35%, white);
+    transition: border-color var(--duree);
+}
+
+.champ__saisie:hover {
+    border-color: var(--couleur-texte);
+}
+
+textarea.champ__saisie {
+    min-height: 7rem;
+    resize: vertical;
+}
+
+/* Champ en erreur : bordure épaissie + message préfixé d'un signe,
+   pour ne pas reposer sur la couleur seule */
+.champ__saisie[aria-invalid="true"] {
+    border: 2px solid var(--couleur-bordeaux);
+}
+
+.champ__erreur {
+    font-size: var(--taille-petite);
+    font-weight: 600;
+    color: var(--couleur-bordeaux);
+}
+
+.champ__erreur::before {
+    content: "⚠ ";
+}
+
+/* Résumé des erreurs, en haut du formulaire */
+.resume-erreurs {
+    display: grid;
+    gap: var(--espace-xs);
+    padding: var(--espace-m);
+    border: 2px solid var(--couleur-bordeaux);
+    border-radius: var(--rayon);
+}
+
+.resume-erreurs h3 {
+    font-size: var(--taille-1);
+}
+
+.resume-erreurs ul {
+    display: grid;
+    gap: 0.25rem;
+    padding-left: 1.25rem;
+}
+
+/* Message de succès */
+.message-succes {
+    display: grid;
+    gap: var(--espace-xs);
+    text-align: center;
+}
+
+/* Champ piège anti-robots : sorti de l'écran (et pas display:none,
+   que certains robots savent repérer). Invisible pour les humains. */
+.champ-piege {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
 
 

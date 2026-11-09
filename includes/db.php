@@ -6,17 +6,15 @@
  * une seule connexion par page, quel que soit le nombre de requêtes.
  */
 
+require_once __DIR__ . '/fonctions.php';
+
 function db(): PDO
 {
     // « static » : la variable garde sa valeur d'un appel à l'autre
     static $pdo = null;
 
     if ($pdo === null) {
-        $fichier = __DIR__ . '/../config/config.local.php';
-        if (!is_file($fichier)) {
-            throw new RuntimeException('config/config.local.php introuvable : copier config.example.php.');
-        }
-        $c = (require $fichier)['db'];
+        $c = configLocale()['db']; // voir fonctions.php
 
         $dsn = sprintf(
             'mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4',

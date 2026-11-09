@@ -1,0 +1,270 @@
+/* ==========================================================================
+   Page « Venir nous voir »
+   ========================================================================== */
+
+
+/* --- Introduction --- */
+.venir-intro {
+    padding-bottom: 0;
+    text-align: center;
+}
+
+.venir-intro h1 {
+    margin-top: var(--espace-xs);
+    font-size: var(--taille-4);
+}
+
+.venir-intro__chapeau {
+    margin: var(--espace-m) auto 0;
+    font-size: var(--taille-1);
+    line-height: 1.5;
+    color: var(--couleur-texte-doux);
+}
+
+
+/* ==========================================================================
+   Infos pratiques + plan
+   ========================================================================== */
+.venir-infos__grille {
+    display: grid;
+    gap: var(--espace-xl);
+    align-items: center;
+}
+
+@media (min-width: 56em) {
+    .venir-infos__grille {
+        grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    }
+}
+
+.infos {
+    display: grid;
+    gap: var(--espace-l);
+}
+
+.infos__bloc {
+    display: grid;
+    gap: var(--espace-xs);
+    justify-items: start;
+}
+
+.infos__titre {
+    font-family: var(--police-texte);
+    font-size: var(--taille-petite);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--couleur-texte-doux);
+}
+
+.infos address {
+    font-style: normal;
+}
+
+.infos__liste {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0;
+    list-style: none;
+}
+
+
+/* ==========================================================================
+   Plan SVG
+   Les couleurs et polices sont données en CSS (classes), ce qui permet
+   d'utiliser les variables de la palette, impossible dans les attributs SVG.
+   ========================================================================== */
+.plan-acces {
+    display: grid;
+    gap: var(--espace-xs);
+}
+
+.plan-acces figcaption {
+    font-family: var(--police-titres);
+    font-style: italic;
+    font-size: var(--taille-petite);
+    color: var(--couleur-texte-doux);
+    text-align: center;
+}
+
+.plan {
+    width: 100%;
+    height: auto;
+}
+
+.plan__fond {
+    fill: color-mix(in srgb, var(--couleur-creme) 80%, var(--couleur-laiton));
+}
+
+.plan__rue-bord use,
+.plan__rue use {
+    fill: none;
+    stroke-linecap: round;
+}
+
+.plan__rue-bord use {
+    stroke: color-mix(in srgb, var(--couleur-noir) 55%, transparent);
+    stroke-width: 34;
+}
+
+.plan__rue use {
+    stroke: var(--couleur-creme);
+    stroke-width: 30;
+}
+
+.plan__place {
+    fill: var(--couleur-creme);
+    stroke: color-mix(in srgb, var(--couleur-noir) 55%, transparent);
+    stroke-width: 2;
+}
+
+.plan__itineraire {
+    fill: none;
+    stroke: var(--couleur-bordeaux);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 0.1 11; /* des points ronds espacés */
+}
+
+.plan__duree {
+    font-family: var(--police-titres);
+    font-style: italic;
+    font-size: 20px;
+    fill: var(--couleur-bordeaux);
+}
+
+.plan__nom-rue {
+    font-family: var(--police-texte);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    fill: var(--couleur-texte);
+}
+
+.plan__nom-place {
+    font-family: var(--police-titres);
+    font-style: italic;
+    font-size: 15px;
+    fill: var(--couleur-texte);
+}
+
+.plan__repere {
+    font-family: var(--police-titres);
+    font-style: italic;
+    font-size: 18px;
+    fill: var(--couleur-texte-doux);
+}
+
+.plan__metro circle {
+    fill: var(--couleur-bordeaux);
+}
+
+.plan__metro text {
+    font-family: var(--police-texte);
+    font-size: 17px;
+    font-weight: 700;
+    fill: var(--couleur-creme);
+}
+
+.plan__metro-nom {
+    font-family: var(--police-texte);
+    font-size: 17px;
+    font-weight: 600;
+    fill: var(--couleur-texte);
+}
+
+.plan__bistrot {
+    fill: var(--couleur-bordeaux);
+    stroke: var(--couleur-creme);
+    stroke-width: 3;
+}
+
+.plan__bistrot-nom {
+    font-family: var(--police-titres);
+    font-size: 30px;
+    fill: var(--couleur-bordeaux);
+}
+
+.plan__bistrot-numero {
+    font-family: var(--police-texte);
+    font-size: 16px;
+    font-weight: 600;
+    fill: var(--couleur-texte);
+}
+
+.plan__nord path {
+    fill: var(--couleur-laiton);
+}
+
+.plan__nord text {
+    font-family: var(--police-titres);
+    font-size: 16px;
+    fill: var(--couleur-texte);
+}
+
+.plan__cadre {
+    fill: none;
+    stroke: var(--couleur-laiton);
+    stroke-width: 3;
+}
+
+.plan__cadre--fin {
+    stroke-width: 1;
+}
+
+
+/* ==========================================================================
+   Réservation
+   ========================================================================== */
+.reservation {
+    display: grid;
+    gap: var(--espace-m);
+    padding: var(--espace-l) clamp(1rem, 4vw, 2.5rem);
+}
+
+.reservation h2 {
+    text-align: center;
+}
+
+.reservation__intro {
+    margin-inline: auto;
+    text-align: center;
+}
+
+.reservation__envoi {
+    display: grid;
+    gap: var(--espace-s);
+    justify-items: start;
+}
+
+.message-succes__titre {
+    font-family: var(--police-titres);
+    font-size: var(--taille-2);
+    line-height: 1.2;
+    color: var(--couleur-accent);
+}
+
+.message-succes p {
+    margin-inline: auto;
+}
+
+
+/* --- Une question ? --- */
+.venir-question {
+    padding-top: 0;
+    text-align: center;
+}
+
+.venir-question h2 {
+    margin-bottom: var(--espace-s);
+}
+
+.venir-question p {
+    margin-inline: auto;
+}
+
+.venir-question .groupe-boutons {
+    justify-content: center;
+    margin-top: var(--espace-m);
+}

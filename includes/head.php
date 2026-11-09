@@ -41,13 +41,13 @@ $titreComplet = isset($pageTitle)
     <link rel="preload" href="<?= e(url('assets/fonts/dm-serif-display-latin-400-normal.woff2')) ?>" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="<?= e(url('assets/fonts/work-sans-latin-wght-normal.woff2')) ?>" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="<?= e(url('assets/css/fonts.css')) ?>">
-    <link rel="stylesheet" href="<?= e(url('assets/css/variables.css')) ?>">
-    <link rel="stylesheet" href="<?= e(url('assets/css/base.css')) ?>">
-    <link rel="stylesheet" href="<?= e(url('assets/css/layout.css')) ?>">
-    <link rel="stylesheet" href="<?= e(url('assets/css/components.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/fonts.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/variables.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/base.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/layout.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/components.css')) ?>">
 <?php if ($pageCss): ?>
-    <link rel="stylesheet" href="<?= e(url('assets/css/pages/' . $pageCss . '.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/pages/' . $pageCss . '.css')) ?>">
 <?php endif; ?>
 </head>
 <body>

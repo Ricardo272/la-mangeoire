@@ -15,4 +15,7 @@ return [
         'utilisateur'  => 'la_mangeoire',
         'mot_de_passe' => 'CHANGER_CE_MOT_DE_PASSE', // le même que dans sql/creation-base.sql
     ],
+    // Clé secrète : signe les jetons du formulaire de réservation.
+    // Une longue chaîne aléatoire, par exemple : php -r "echo bin2hex(random_bytes(32));"
+    'secret' => 'CHANGER_CETTE_CLE',
 ];
