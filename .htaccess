@@ -1,0 +1,19 @@
+# ==========================================================================
+# Configuration Apache du site
+# ==========================================================================
+
+# Page d'erreur maison pour toute adresse inconnue.
+# Chemin depuis la racine du site : à adapter si le site est un jour
+# hébergé dans un sous-dossier (comme base_url dans config/site.php).
+ErrorDocument 404 /404.php
+
+# Pas de liste des fichiers quand on ouvre un dossier sans index
+# (ex. /assets/img/ afficherait sinon tout son contenu).
+Options -Indexes
+
+# Dossiers internes : jamais accessibles depuis le navigateur.
+# includes/ : morceaux de page qui n'ont pas de sens seuls
+# config/   : configuration (et bientôt les identifiants de la base)
+# sql/      : structure de la base (phase 4)
+# On répond « 404 » plutôt que « 403 interdit » : inutile de signaler qu'ils existent.
+RedirectMatch 404 ^/(includes|config|sql)(/|$)

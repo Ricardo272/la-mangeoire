@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Page d'erreur 404
+   ========================================================================== */
+
+.erreur {
+    text-align: center;
+}
+
+.erreur h1 {
+    margin-top: var(--espace-xs);
+    font-size: var(--taille-4);
+}
+
+.erreur__texte {
+    margin: var(--espace-m) auto 0;
+    font-size: var(--taille-1);
+    line-height: 1.5;
+    color: var(--couleur-texte-doux);
+}
+
+.erreur .filet--orne {
+    max-width: 16rem;
+    margin-inline: auto;
+}
+
+.erreur .groupe-boutons {
+    justify-content: center;
+}

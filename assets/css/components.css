@@ -265,6 +265,43 @@
 
 
 /* ==========================================================================
+   Prose : mise en forme des pages de texte long (mentions légales…)
+   Les espacements suivent la hiérarchie : plus d'air avant un titre
+   qu'entre deux paragraphes.
+   ========================================================================== */
+.prose > * + * {
+    margin-top: var(--espace-s);
+}
+
+.prose h1 {
+    margin-top: var(--espace-xs);
+    margin-bottom: var(--espace-m);
+    font-size: var(--taille-3);
+}
+
+.prose h2 {
+    margin-top: var(--espace-l);
+    font-size: var(--taille-1);
+}
+
+.prose ul {
+    display: grid;
+    gap: var(--espace-xs);
+    padding-left: 1.25rem;
+}
+
+.prose li::marker {
+    color: var(--couleur-filet);
+}
+
+.prose__maj {
+    margin-top: var(--espace-l);
+    font-size: var(--taille-petite);
+    color: var(--couleur-texte-doux);
+}
+
+
+/* ==========================================================================
    Images temporaires (générées par la fonction PHP image())
    ========================================================================== */
 .image-temp {
