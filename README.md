@@ -107,7 +107,8 @@ la-mangeoire/
   - [x] Hébergeur (alwaysdata), photos Unsplash, hébergeur et crédits dans les mentions légales
   - [x] Sur le serveur : config.local.php (secrets propres au serveur, adresse en https), base
     importée, robots.txt et sitemap.xml, erreurs PHP masquées ; HTTPS, cookies et tests vérifiés
-  - [ ] Compte admin `lucas` ; téléphone d'alwaysdata et lien GitHub dans les mentions légales ;
+  - [x] Compte admin `lucas` créé en ligne
+  - [ ] Téléphone d'alwaysdata et lien GitHub dans les mentions légales ;
     numéro fictif à vérifier
   - [ ] Vérifications en ligne (Lighthouse, W3C, résultats enrichis Google, partage)
 
