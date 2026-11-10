@@ -28,7 +28,8 @@ require_once __DIR__ . '/includes/header.php';
             <p>
                 Ricardo Remond, développeur web.<br>
                 Directeur de la publication : Ricardo Remond.<br>
-                Contact : <em>lien GitHub à compléter</em>.
+                Code source et contact :
+                <a href="https://github.com/Ricardo272/la-mangeoire" rel="noopener">github.com/Ricardo272/la-mangeoire</a>.
             </p>
 
             <h2>Hébergement</h2>
