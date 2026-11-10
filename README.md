@@ -1,134 +1,139 @@
 # La Mangeoire
 
-Site vitrine d'un bistrot parisien **fictif**, créé pour mon portfolio.
+**Site vitrine d'un bistrot parisien fictif, avec réservation en ligne et tableau de bord.**
+PHP 8 et MySQL, sans framework · Projet de portfolio de Ricardo Remond
+
+**[Voir le site en ligne →](https://la-mangeoire-demo.alwaysdata.net)**
 
 > « Chez nous, on vient comme on est, et on repart le ventre plein. »
+> Bistrot de Montmartre tenu par la même famille depuis 1952 : Marcel et Josette, puis Bernard,
+> et aujourd'hui Lucas, le petit-fils. Les personnes, l'adresse et le téléphone sont inventés.
 
-La Mangeoire, bistrot à l'ancienne du 18e arrondissement (Montmartre / Abbesses),
-tenu par la même famille depuis 1952 : Marcel et Josette, puis Bernard,
-et aujourd'hui Lucas, le petit-fils.
+![Page d'accueil](docs/captures/accueil.jpg)
 
-## Technique
+| La carte, lue en base | Notre histoire |
+|---|---|
+| ![La carte et l'ardoise du jour](docs/captures/carte.jpg) | ![La frise de l'histoire, photos en sépia](docs/captures/histoire.jpg) |
 
-- PHP 8 (header, footer et navigation en includes)
-- MySQL, accès via PDO et requêtes préparées
-- HTML sémantique, CSS et JavaScript sans framework
-- Mobile en priorité, variables CSS pour la palette et les typographies
-- Polices hébergées localement (pas d'appel à Google Fonts, respect du RGPD)
+| Tableau de bord (privé) | L'ardoise sur téléphone, aperçu en direct |
+|---|---|
+| ![Tableau de bord : couverts prévus, ardoise du jour, demandes à confirmer](docs/captures/admin-tableau-de-bord.jpg) | <img src="docs/captures/admin-ardoise-mobile.jpg" alt="Saisie de l'ardoise sur mobile avec son aperçu à la craie" width="300"> |
 
-## Prérequis
+---
 
-- [Laragon](https://laragon.org/) (Apache, PHP 8+, MySQL)
+## Ce que fait le site
 
-## Installation
+- **Une identité soignée** : rétro mais épurée, palette de quatre couleurs en variables CSS,
+  trois éléments graphiques seulement (ardoise, photos sépia, filets dorés).
+  L'ardoise et sa texture de craie sont en CSS pur, sans image.
+- **La carte et l'ardoise du jour viennent de MySQL**, avec un mode démo : un jour sans ardoise,
+  le site en reprend une déjà écrite, pour ne jamais rester vide.
+- **La réservation en ligne** : créneaux calculés à partir des horaires, jours de fermeture,
+  délai d'une heure, limite à deux mois, messages d'erreur accessibles.
+- **Le badge « Ouvert maintenant »** (« Fermé · ouvre mardi à 12h »), calculé à partir des horaires.
+- **Un tableau de bord pensé pour le téléphone** : écrire l'ardoise avec un aperçu à la craie,
+  confirmer ou annuler les réservations, gérer la carte et la formule.
+- Un plan d'accès dessiné en SVG, l'agrandissement des toiles avec `<dialog>`,
+  une version imprimable de la carte, et des animations coupées si l'utilisateur le demande.
 
-1. Placer le projet dans `C:\laragon\www\la-mangeoire`
-2. Dans Laragon, cliquer sur **Recharger** : le site est servi sur `http://la-mangeoire.test`
-3. Base de données (MySQL de Laragon, en `root`) :
-   - choisir un mot de passe et le mettre à la place de `CHANGER_CE_MOT_DE_PASSE`
-     dans `sql/creation-base.sql`, puis exécuter ce fichier (base + utilisateur dédié) ;
-   - exécuter `sql/schema.sql` (tables) puis `sql/seed.sql` (données de démonstration)
-     dans la base `la_mangeoire`.
-4. Copier `config/config.example.php` en `config/config.local.php`
-   et y mettre l'adresse du site, le même mot de passe, ainsi qu'une clé secrète
-   aléatoire (`php -r "echo bin2hex(random_bytes(32));"`). Ce fichier est exclu de Git.
+## Choix techniques
 
-**Attention : `sql/seed.sql` vide puis remplit la carte, les ardoises et les réservations.**
-Ne jamais le relancer sur le site en ligne : il effacerait tout ce qui a été saisi
-dans le tableau de bord. Ce n'est plus nécessaire pour la démonstration : en mode démo
-(`'demo' => true` dans `config/site.php`), un jour sans ardoise en affiche une déjà écrite.
+- **PHP 8 et MySQL sans framework**, pour montrer les bases : includes réutilisables, PDO avec
+  de vraies requêtes préparées, tout le SQL du site regroupé dans un seul fichier par usage.
+- **HTML sémantique, CSS et JavaScript natifs**, mobile en priorité. Le site fonctionne
+  sans JavaScript : le script ne fait qu'ajouter du confort (menu, aperçus, animations).
+- **Le site public ne dépose aucun cookie** : pas de bandeau de consentement, polices
+  hébergées localement (aucun appel à Google Fonts).
+- **Pas de dépendance** : ni Composer, ni npm, ni outil d'assemblage.
 
-## Tests
+## Sécurité
 
-Connexion (blocage), réservation, prix et horaires, MySQL démarré :
+- **Requêtes préparées** partout et **échappement** systématique à l'affichage (`e()`).
+- **Réservation sans cookie** : contre les robots, un champ piège invisible et un jeton signé
+  (HMAC) qui contient l'heure d'affichage, plus une limite de demandes par heure.
+- **Tableau de bord** :
+  - mots de passe hachés (`password_hash`), comptes créés en ligne de commande, sans page d'inscription ;
+  - cookie de session limité à `/admin/`, `HttpOnly`, `SameSite=Strict`, `Secure` en ligne ;
+  - identifiant de session renouvelé à la connexion, déconnexion après 2 h d'inactivité ;
+  - jeton CSRF sur chaque action, connexion et déconnexion comprises ;
+  - blocage de 15 minutes après 5 échecs, comptés par MySQL pour que des essais simultanés
+    ne passent pas au travers.
+- **En ligne** : HTTPS forcé, en-têtes de sécurité, dossiers internes inaccessibles,
+  erreurs PHP jamais affichées aux visiteurs, secrets uniquement sur le serveur (jamais dans Git).
+- **RGPD** : seules les données utiles sont collectées, sans adresse IP ; les réservations
+  sont supprimées automatiquement trois mois après le repas.
 
-```
-php tests/securite.php
-```
+## Qualité vérifiée
 
-## Tableau de bord
+| Contrôle | Résultat |
+|---|---|
+| Lighthouse mobile (accueil, histoire, venir nous voir) | performance 91 à 100 ; accessibilité, bonnes pratiques et SEO à 100 |
+| Validateur W3C | aucune erreur |
+| Test des résultats enrichis Google | fiche « Restaurant » valide (données structurées JSON-LD) |
+| `tests/securite.php` | 25 vérifications : connexion et blocage, réservation, prix, horaires |
 
-Adresse : `http://la-mangeoire.test/admin/` (aucun lien depuis le site public).
+## Démarche
 
-Créer un compte, ou changer son mot de passe (12 caractères minimum, demandé au clavier) :
+Le projet a avancé en huit phases, chacune validée avant de passer à la suivante :
+fondations, composants, pages statiques, base de données, réservation, finitions,
+tableau de bord, puis mise en ligne. L'historique Git suit ces étapes.
 
-```
-php outils/creer-admin.php lucas
-```
+---
 
-Supprimer un compte : `php outils/creer-admin.php --supprimer lucas`
+## Installer le projet en local
 
-Attention : relancer `sql/schema.sql` supprime aussi les comptes (à recréer ensuite).
-`sql/seed.sql` ne touche pas aux comptes.
+**Prérequis** : [Laragon](https://laragon.org/) (Apache, PHP 8.1+, MySQL), ou tout serveur
+Apache avec PHP 8.1+ (extensions `intl`, `mbstring`, `pdo_mysql`) et MySQL ou MariaDB.
 
-## Images générées
+1. Placer le projet dans `C:\laragon\www\la-mangeoire`, puis cliquer sur **Recharger** dans Laragon :
+   le site est servi sur `http://la-mangeoire.test`.
+2. Base de données, en `root` :
+   - mettre un mot de passe à la place de `CHANGER_CE_MOT_DE_PASSE` dans `sql/creation-base.sql`,
+     puis exécuter ce fichier (base et utilisateur dédié) ;
+   - exécuter `sql/schema.sql` puis `sql/seed.sql` (données de démonstration).
+3. Copier `config/config.example.php` en `config/config.local.php` et y mettre l'adresse du site,
+   le même mot de passe et une clé secrète aléatoire (`php -r "echo bin2hex(random_bytes(32));"`).
+   Ce fichier est exclu de Git.
+4. Créer un compte pour le tableau de bord (`/admin/`) : `php outils/creer-admin.php lucas`
+   (`--supprimer lucas` pour le supprimer).
 
-L'image de partage (`assets/img/partage.jpg`), `favicon.ico` et `apple-touch-icon.png`
-sont produites par un script PHP (bibliothèque GD) :
+**Attention** : `sql/schema.sql` supprime toutes les tables, comptes compris, et `sql/seed.sql`
+remplace la carte, les ardoises et les réservations. Ne jamais les lancer sur le site en ligne.
 
-```
-php outils/generer-images.php
-```
+**Tests**, MySQL démarré : `php tests/securite.php`
+
+**Images techniques** (image de partage, `favicon.ico`, `apple-touch-icon.png`) :
+`php outils/generer-images.php`
 
 ## Structure
 
 ```
 la-mangeoire/
-├── *.php               pages publiques
-├── includes/           head, header, nav, footer, connexion à la base
-├── config/             configuration (identifiants exclus de Git)
-├── sql/                création des tables et données de départ
-├── admin/              tableau de bord
-├── outils/             scripts en ligne de commande (comptes, images)
-├── tests/              tests en ligne de commande
-└── assets/
-    ├── css/            variables, base, layout, composants, pages
-    ├── js/
-    ├── fonts/          polices .woff2 + licences OFL
-    └── img/            images (une image absente est remplacée par une image temporaire)
+├── *.php          pages publiques
+├── admin/         tableau de bord
+├── includes/      morceaux de page, connexion, requêtes, réservation, sécurité de l'admin
+├── config/        configuration (site.php versionné ; config.local.php exclu de Git)
+├── sql/           création de la base, tables, données de démonstration
+├── outils/        scripts en ligne de commande (comptes, images)
+├── tests/         tests en ligne de commande
+├── docs/captures/ captures d'écran de ce README
+└── assets/        CSS, JavaScript, polices (.woff2 et licences), images
 ```
 
-## Avancement
-
-- [x] Phase 0 : mise en place
-- [x] Phase 1 : fondations (variables CSS, includes)
-- [x] Phase 2 : composants (ardoise, filets dorés, boutons, menu)
-- [x] Phase 3 : pages sans base de données (accueil, histoire, mentions légales, 404)
-- [x] Phase 4 : base de données (carte, ardoise, badge « Ouvert »)
-- [x] Phase 5 : Venir nous voir et réservation (plan SVG, formulaire, anti-robots sans cookie,
-  suppression automatique des réservations 3 mois après le repas)
-- [x] Phase 6 : finitions (agrandissement des toiles, animations, rubrique en cours, carte imprimable,
-  JSON-LD, Open Graph, favicon, robots/sitemap, cache et compression, contrôle d'accessibilité)
-- [x] Phase 7 : tableau de bord (ardoise avec aperçu, réservations, carte et formule ;
-  session limitée à /admin/, CSRF, blocage après 5 échecs, mots de passe hachés)
-- [ ] Phase 8 : mise en ligne
-  - [x] Préparation : mode démo, adresse du site dans config.local.php, HTTPS forcé en ligne,
-    page de développement retirée, correctifs de sécurité et tests
-  - [x] Hébergeur (alwaysdata), photos Unsplash, hébergeur et crédits dans les mentions légales
-  - [x] Sur le serveur : config.local.php (secrets propres au serveur, adresse en https), base
-    importée, robots.txt et sitemap.xml, erreurs PHP masquées ; HTTPS, cookies et tests vérifiés
-  - [x] Compte admin `lucas` créé en ligne
-  - [ ] Téléphone d'alwaysdata et lien GitHub dans les mentions légales
-  - [x] Numéro fictif confirmé (tranche ARCEP 01 99 00 pour les œuvres audiovisuelles)
-  - [x] Lighthouse mobile : accueil 91/100/100/100, histoire 99/100/100/100, venir 100 partout
-  - [x] Validateur W3C : aucune erreur (avertissements role="list" et ardoise : voulus, voir nav.php)
-  - [x] Test des résultats enrichis Google : fiche Restaurant et Organisation valides
-
-## En ligne
-
-Site : https://la-mangeoire-demo.alwaysdata.net (hébergement alwaysdata, MariaDB).
+## Mise en ligne (alwaysdata)
 
 Le code est envoyé par Git en SSH dans un dépôt nu (`~/depot.git`), puis déposé dans `~/www`.
-`config/config.local.php` existe seulement sur le serveur. Pour publier une mise à jour :
+`config/config.local.php` n'existe que sur le serveur. Pour publier une mise à jour :
 
 ```
 git push ssh://la-mangeoire-demo@ssh-la-mangeoire-demo.alwaysdata.net/home/la-mangeoire-demo/depot.git main
 ssh la-mangeoire-demo@ssh-la-mangeoire-demo.alwaysdata.net "git --git-dir=depot.git --work-tree=www checkout -f main"
 ```
 
-Ne jamais lancer `sql/schema.sql` ni `sql/seed.sql` sur le serveur : ils effaceraient les données.
-
 ## Crédits
 
-Polices sous licence SIL Open Font License 1.1 (textes dans `assets/fonts/licences/`) :
-DM Serif Display, Work Sans, Caveat.
+- Polices sous licence SIL Open Font License 1.1 (textes dans `assets/fonts/licences/`) :
+  DM Serif Display, Work Sans, Caveat.
+- Photographies sous [licence Unsplash](https://unsplash.com/license) : Megan Bucknall,
+  Oliver Frsh, Odiseo Castrejon, Lefteris Kallergis, Alfonso Betancourt
+  (liens dans les mentions légales du site).
