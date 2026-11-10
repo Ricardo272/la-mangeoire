@@ -104,12 +104,26 @@ la-mangeoire/
 - [ ] Phase 8 : mise en ligne
   - [x] Préparation : mode démo, adresse du site dans config.local.php, HTTPS forcé en ligne,
     page de développement retirée, correctifs de sécurité et tests
-  - [ ] Hébergeur, adresse, photos, contact et hébergeur dans les mentions légales,
+  - [x] Hébergeur (alwaysdata), photos Unsplash, hébergeur et crédits dans les mentions légales
+  - [x] Sur le serveur : config.local.php (secrets propres au serveur, adresse en https), base
+    importée, robots.txt et sitemap.xml, erreurs PHP masquées ; HTTPS, cookies et tests vérifiés
+  - [ ] Compte admin `lucas` ; téléphone d'alwaysdata et lien GitHub dans les mentions légales ;
     numéro fictif à vérifier
-  - [ ] Sur le serveur : config.local.php (nouveaux secrets, adresse en https), base,
-    compte admin ; remplacer le domaine dans robots.txt et sitemap.xml ;
-    vérifier que les erreurs PHP ne s'affichent pas
   - [ ] Vérifications en ligne (Lighthouse, W3C, résultats enrichis Google, partage)
+
+## En ligne
+
+Site : https://la-mangeoire-demo.alwaysdata.net (hébergement alwaysdata, MariaDB).
+
+Le code est envoyé par Git en SSH dans un dépôt nu (`~/depot.git`), puis déposé dans `~/www`.
+`config/config.local.php` existe seulement sur le serveur. Pour publier une mise à jour :
+
+```
+git push ssh://la-mangeoire-demo@ssh-la-mangeoire-demo.alwaysdata.net/home/la-mangeoire-demo/depot.git main
+ssh la-mangeoire-demo@ssh-la-mangeoire-demo.alwaysdata.net "git --git-dir=depot.git --work-tree=www checkout -f main"
+```
+
+Ne jamais lancer `sql/schema.sql` ni `sql/seed.sql` sur le serveur : ils effaceraient les données.
 
 ## Crédits
 
