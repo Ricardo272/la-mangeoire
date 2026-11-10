@@ -52,12 +52,12 @@ require_once __DIR__ . '/includes/header.php';
                         </div>
                         <div class="frise__photos">
                             <figure class="photo-ancienne">
-                                <?= image('histoire/1952-zinc.jpg', 'Marcel derrière le zinc, un torchon sur l\'épaule', 1200, 900) ?>
-                                <figcaption>Marcel au zinc, vers 1953</figcaption>
+                                <?= image('histoire/1952-zinc.jpg', 'Le comptoir et ses tabourets rouges, les bouteilles alignées derrière', 1200, 900) ?>
+                                <figcaption>Le zinc de Marcel</figcaption>
                             </figure>
                             <figure class="photo-ancienne">
-                                <?= image('histoire/1952-josette.jpg', 'Josette devant ses fourneaux', 900, 1200) ?>
-                                <figcaption>Josette dans sa cuisine, vers 1955</figcaption>
+                                <?= image('histoire/1952-josette.jpg', 'Une cocotte qu\'on sort du fourneau, tenue entre deux torchons', 900, 1200) ?>
+                                <figcaption>La cocotte du bourguignon</figcaption>
                             </figure>
                         </div>
                     </div>
@@ -134,8 +134,8 @@ require_once __DIR__ . '/includes/header.php';
                         </div>
                         <div class="frise__photos">
                             <figure class="photo-ancienne">
-                                <?= image('histoire/1985-bernard.jpg', 'Bernard accoudé au comptoir', 1200, 900) ?>
-                                <figcaption>Bernard au comptoir, 1985</figcaption>
+                                <?= image('histoire/1985-bernard.jpg', 'Un verre de vin rouge servi au comptoir', 1200, 900) ?>
+                                <figcaption>Bernard sert le rouge, 1985</figcaption>
                             </figure>
                         </div>
                     </div>
@@ -171,8 +171,8 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="frise__photos">
                             <!-- Aujourd'hui : noir et blanc plutôt que sépia -->
                             <figure class="photo-ancienne photo-ancienne--nb">
-                                <?= image('histoire/aujourdhui-lucas.jpg', 'Lucas en tablier, dressant une assiette en cuisine', 900, 1200) ?>
-                                <figcaption>Lucas en cuisine, aujourd'hui</figcaption>
+                                <?= image('histoire/aujourdhui-lucas.jpg', 'Des mains de chef dressent une assiette à la pince', 900, 1200) ?>
+                                <figcaption>Lucas au dressage, aujourd'hui</figcaption>
                             </figure>
                         </div>
                     </div>

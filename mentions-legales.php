@@ -28,20 +28,36 @@ require_once __DIR__ . '/includes/header.php';
             <p>
                 Ricardo Remond, développeur web.<br>
                 Directeur de la publication : Ricardo Remond.<br>
-                Contact : <em>à compléter</em>.
+                Contact : <em>lien GitHub à compléter</em>.
             </p>
 
             <h2>Hébergement</h2>
             <p>
-                <em>À compléter à la mise en ligne</em> : nom, adresse et téléphone de l'hébergeur.
+                ALWAYSDATA, SARL au capital de 200 000 €, RCS Paris 492 893 490<br>
+                91, rue du Faubourg Saint-Honoré, 75008 Paris<br>
+                <a href="https://www.alwaysdata.com" rel="noopener">www.alwaysdata.com</a>
+                · Téléphone : <em>à compléter</em>
             </p>
 
             <h2>Propriété intellectuelle</h2>
             <p>
                 Les textes, la mise en page et le code du site sont la propriété de leur auteur.
                 Les polices DM Serif Display, Work Sans et Caveat sont distribuées sous licence
-                libre SIL Open Font License 1.1. Les crédits des photographies seront précisés
-                à leur mise en ligne.
+                libre SIL Open Font License 1.1.
+            </p>
+            <p>
+                Photographies sous <a href="https://unsplash.com/license" rel="noopener">licence Unsplash</a>,
+                d'autres lieux et d'autres personnes que ceux de cette histoire fictive :
+            </p>
+            <ul>
+                <li>Terrasse (accueil) : <a href="https://unsplash.com/photos/o49uRfALSiI" rel="noopener">Megan Bucknall</a></li>
+                <li>Le zinc : <a href="https://unsplash.com/photos/aaCAWEAFyGk" rel="noopener">Oliver Frsh</a></li>
+                <li>La cocotte : <a href="https://unsplash.com/photos/s6BrlKXy7e0" rel="noopener">Odiseo Castrejon</a></li>
+                <li>Le vin servi : <a href="https://unsplash.com/photos/etWlaoFnTl4" rel="noopener">Lefteris Kallergis</a></li>
+                <li>Le dressage : <a href="https://unsplash.com/photos/q4nWGwVM2Vk" rel="noopener">Alfonso Betancourt</a></li>
+            </ul>
+            <p>
+                Les toiles des habitués sont en attente d'illustrations.
             </p>
 
             <h2>Données personnelles</h2>

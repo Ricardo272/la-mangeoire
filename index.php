@@ -37,7 +37,7 @@ $horaires = resumerHoraires($site['horaires']);
             </div>
 
             <div class="ouverture__image">
-                <?= image('accueil/facade.jpg', 'La devanture bordeaux de La Mangeoire, rue de la Butte-aux-Peintres', 1200, 1500, '', true) ?>
+                <?= image('accueil/facade.jpg', 'La terrasse de La Mangeoire : tables et chaises de bistrot alignées sur le trottoir', 1200, 1500, '', true) ?>
             </div>
         </div>
     </section>
