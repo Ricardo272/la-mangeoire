@@ -108,9 +108,10 @@ la-mangeoire/
   - [x] Sur le serveur : config.local.php (secrets propres au serveur, adresse en https), base
     importée, robots.txt et sitemap.xml, erreurs PHP masquées ; HTTPS, cookies et tests vérifiés
   - [x] Compte admin `lucas` créé en ligne
-  - [ ] Téléphone d'alwaysdata et lien GitHub dans les mentions légales ;
-    numéro fictif à vérifier
-  - [ ] Vérifications en ligne (Lighthouse, W3C, résultats enrichis Google, partage)
+  - [ ] Téléphone d'alwaysdata et lien GitHub dans les mentions légales
+  - [x] Numéro fictif confirmé (tranche ARCEP 01 99 00 pour les œuvres audiovisuelles)
+  - [x] Lighthouse mobile : accueil 91/100/100/100, histoire 99/100/100/100, venir 100 partout
+  - [ ] Validateur W3C et test des résultats enrichis Google (à faire à la main : vérification anti-robots)
 
 ## En ligne
 

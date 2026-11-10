@@ -34,8 +34,8 @@ return [
     ],
     'metro' => 'Abbesses (ligne 12)',
 
-    // Numéro fictif : la tranche 01 99 00 xx xx serait réservée par l'ARCEP
-    // aux œuvres de fiction (À VÉRIFIER avant la mise en ligne).
+    // Numéro fictif : la tranche 01 99 00 xx xx est réservée par l'ARCEP aux œuvres
+    // audiovisuelles (plan national de numérotation) : elle n'appartient à personne.
     'telephone' => '01 99 00 19 52',
     // Le domaine .test est réservé : il ne peut appartenir à personne.
     'email'     => 'bonjour@la-mangeoire.test',
