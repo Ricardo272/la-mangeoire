@@ -111,7 +111,8 @@ la-mangeoire/
   - [ ] Téléphone d'alwaysdata et lien GitHub dans les mentions légales
   - [x] Numéro fictif confirmé (tranche ARCEP 01 99 00 pour les œuvres audiovisuelles)
   - [x] Lighthouse mobile : accueil 91/100/100/100, histoire 99/100/100/100, venir 100 partout
-  - [ ] Validateur W3C et test des résultats enrichis Google (à faire à la main : vérification anti-robots)
+  - [x] Validateur W3C : aucune erreur (avertissements role="list" et ardoise : voulus, voir nav.php)
+  - [x] Test des résultats enrichis Google : fiche Restaurant et Organisation valides
 
 ## En ligne
 
