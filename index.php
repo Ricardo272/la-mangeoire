@@ -8,7 +8,7 @@ $pageRestaurant = true; // fiche « Restaurant » pour Google, sur l'accueil seu
 
 // Données de la page, lues dans la base AVANT d'afficher quoi que ce soit
 require_once __DIR__ . '/includes/donnees.php';
-$ardoise = ardoiseDuJour(); // null s'il n'y a pas d'ardoise aujourd'hui
+$ardoise = ardoiseAffichee(); // null s'il n'y a pas d'ardoise aujourd'hui (hors mode démo)
 
 require_once __DIR__ . '/includes/head.php';
 require_once __DIR__ . '/includes/header.php';

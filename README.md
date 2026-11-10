@@ -30,11 +30,21 @@ et aujourd'hui Lucas, le petit-fils.
    - exécuter `sql/schema.sql` (tables) puis `sql/seed.sql` (données de démonstration)
      dans la base `la_mangeoire`.
 4. Copier `config/config.example.php` en `config/config.local.php`
-   et y mettre le même mot de passe, ainsi qu'une clé secrète aléatoire
-   (`php -r "echo bin2hex(random_bytes(32));"`). Ce fichier est exclu de Git.
+   et y mettre l'adresse du site, le même mot de passe, ainsi qu'une clé secrète
+   aléatoire (`php -r "echo bin2hex(random_bytes(32));"`). Ce fichier est exclu de Git.
 
-Les ardoises de démonstration couvrent 14 jours à partir de l'import :
-relancer `sql/seed.sql` pour les prolonger.
+**Attention : `sql/seed.sql` vide puis remplit la carte, les ardoises et les réservations.**
+Ne jamais le relancer sur le site en ligne : il effacerait tout ce qui a été saisi
+dans le tableau de bord. Ce n'est plus nécessaire pour la démonstration : en mode démo
+(`'demo' => true` dans `config/site.php`), un jour sans ardoise en affiche une déjà écrite.
+
+## Tests
+
+Connexion (blocage), réservation, prix et horaires, MySQL démarré :
+
+```
+php tests/securite.php
+```
 
 ## Tableau de bord
 
@@ -68,12 +78,14 @@ la-mangeoire/
 ├── includes/           head, header, nav, footer, connexion à la base
 ├── config/             configuration (identifiants exclus de Git)
 ├── sql/                création des tables et données de départ
-├── admin/              tableau de bord (dernière phase)
+├── admin/              tableau de bord
+├── outils/             scripts en ligne de commande (comptes, images)
+├── tests/              tests en ligne de commande
 └── assets/
     ├── css/            variables, base, layout, composants, pages
     ├── js/
     ├── fonts/          polices .woff2 + licences OFL
-    └── img/            images (les temporaires sont préfixées « temp- »)
+    └── img/            images (une image absente est remplacée par une image temporaire)
 ```
 
 ## Avancement
@@ -90,9 +102,14 @@ la-mangeoire/
 - [x] Phase 7 : tableau de bord (ardoise avec aperçu, réservations, carte et formule ;
   session limitée à /admin/, CSRF, blocage après 5 échecs, mots de passe hachés)
 - [ ] Phase 8 : mise en ligne
-  (compléter l'hébergeur et le contact dans les mentions légales ; vérifier le numéro fictif ;
-  retirer dev/composants.php ; remplacer le domaine dans config/site.php (url_absolue),
-  robots.txt et sitemap.xml ; tester la fiche Google avec l'outil « Résultats enrichis »)
+  - [x] Préparation : mode démo, adresse du site dans config.local.php, HTTPS forcé en ligne,
+    page de développement retirée, correctifs de sécurité et tests
+  - [ ] Hébergeur, adresse, photos, contact et hébergeur dans les mentions légales,
+    numéro fictif à vérifier
+  - [ ] Sur le serveur : config.local.php (nouveaux secrets, adresse en https), base,
+    compte admin ; remplacer le domaine dans robots.txt et sitemap.xml ;
+    vérifier que les erreurs PHP ne s'affichent pas
+  - [ ] Vérifications en ligne (Lighthouse, W3C, résultats enrichis Google, partage)
 
 ## Crédits
 

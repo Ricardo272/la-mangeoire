@@ -15,10 +15,10 @@ return [
     // est un jour hébergé dans un sous-dossier (ex. « /portfolio/la-mangeoire/ »).
     'base_url' => '/',
 
-    // Adresse complète du site, sans « / » final : sert aux liens absolus
-    // (lien canonique, partage sur les réseaux, données pour Google).
-    // À changer à la mise en ligne, comme robots.txt et sitemap.xml.
-    'url_absolue' => 'http://la-mangeoire.test',
+    // Site de démonstration (portfolio) : ardoise tournante s'il n'y en a pas
+    // ce jour-là, et bandeau « aucune réservation n'est réellement prise ».
+    // Mettre false pour un vrai restaurant.
+    'demo' => true,
 
     // Pour les données structurées (Google)
     'cuisine'    => ['Française', 'Bistrot'],

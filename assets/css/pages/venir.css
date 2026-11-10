@@ -268,3 +268,14 @@
     justify-content: center;
     margin-top: var(--espace-m);
 }
+
+
+/* --- Bandeau du mode démo --- */
+.bandeau-demo {
+    max-width: none;
+    padding: var(--espace-s) var(--espace-m);
+    border: 1px dashed var(--couleur-bordeaux);
+    border-radius: var(--rayon);
+    font-size: var(--taille-petite);
+    text-align: center;
+}

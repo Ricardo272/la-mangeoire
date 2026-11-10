@@ -11,6 +11,8 @@ require_once __DIR__ . '/../formulaire.php';
 const ADMIN_INACTIVITE       = 7200; // secondes : déconnexion après 2 h sans activité
 const ADMIN_ECHECS_MAX       = 5;    // échecs de connexion d'affilée avant blocage
 const ADMIN_BLOCAGE_MINUTES  = 15;
+// Empreinte de « mot de passe factice » : vérifiée quand l'identifiant n'existe pas
+const ADMIN_EMPREINTE_FACTICE = '$2y$10$RSqeNre3FsvkRpvIkuwOc.5Nk5LenNg6UYGRJ7ykZxOvQFlvCjwJa';
 
 // En cas d'erreur imprévue (base arrêtée…) : on la note dans le journal
 // et on affiche un message sobre, jamais le détail technique.
@@ -43,7 +45,9 @@ function demarrerSession(): void
     session_set_cookie_params([
         'lifetime' => 0,                  // supprimé à la fermeture du navigateur
         'path'     => url('admin/'),      // envoyé SEULEMENT pour /admin/ : le site public reste sans cookie
-        'secure'   => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', // HTTPS seulement, une fois en ligne
+        // HTTPS seulement, une fois en ligne (X-Forwarded-Proto : hébergeurs derrière un proxy)
+        'secure'   => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+                      || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https',
         'httponly' => true,               // inaccessible au JavaScript
         'samesite' => 'Strict',           // jamais envoyé depuis un autre site
     ]);
@@ -104,30 +108,35 @@ function connecter(string $identifiant, string $motDePasse): string
     $compte = $requete->fetch();
 
     if (!$compte) {
-        // Identifiant inconnu : on vérifie quand même un mot de passe factice,
-        // pour que la réponse prenne le même temps. Sinon, mesurer le temps de
-        // réponse suffirait à savoir quels identifiants existent.
-        password_verify($motDePasse, password_hash('mot de passe factice', PASSWORD_DEFAULT));
+        // Identifiant inconnu : on vérifie quand même une empreinte factice (fixe),
+        // pour que la réponse prenne le même temps qu'avec un vrai compte.
+        password_verify($motDePasse, ADMIN_EMPREINTE_FACTICE);
         return 'incorrect';
     }
 
     $maintenant = new DateTimeImmutable();
 
+    // shortcut: le blocage vise le compte, pas le visiteur (pas d'IP stockée) : un inconnu
+    // peut garder le compte bloqué ; passer à un délai par visiteur pour un vrai restaurant.
     if ($compte['bloque_jusqua'] !== null && new DateTimeImmutable($compte['bloque_jusqua']) > $maintenant) {
         return 'bloque';
     }
 
     if (!password_verify($motDePasse, $compte['mot_de_passe'])) {
-        $echecs = $compte['echecs'] + 1;
-        $bloque = $echecs >= ADMIN_ECHECS_MAX;
+        // « echecs + 1 » calculé par MySQL en une seule opération : des essais
+        // envoyés en même temps sont tous comptés (lire puis réécrire en perdrait).
+        db()->prepare('UPDATE admins SET echecs = echecs + 1 WHERE id = :id')->execute(['id' => $compte['id']]);
 
-        db()->prepare('UPDATE admins SET echecs = :echecs, bloque_jusqua = :bloque WHERE id = :id')->execute([
-            'echecs' => $bloque ? 0 : $echecs,
-            'bloque' => $bloque ? $maintenant->modify('+' . ADMIN_BLOCAGE_MINUTES . ' minutes')->format('Y-m-d H:i:s') : null,
-            'id'     => $compte['id'],
+        $blocage = db()->prepare(
+            'UPDATE admins SET echecs = 0, bloque_jusqua = :fin WHERE id = :id AND echecs >= :max'
+        );
+        $blocage->execute([
+            'fin' => $maintenant->modify('+' . ADMIN_BLOCAGE_MINUTES . ' minutes')->format('Y-m-d H:i:s'),
+            'id'  => $compte['id'],
+            'max' => ADMIN_ECHECS_MAX,
         ]);
 
-        return $bloque ? 'bloque' : 'incorrect';
+        return $blocage->rowCount() > 0 ? 'bloque' : 'incorrect';
     }
 
     // Réussite. Si PHP recommande désormais un algorithme plus solide,

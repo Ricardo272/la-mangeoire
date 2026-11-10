@@ -2,7 +2,6 @@
 # À la mise en ligne : remplacer l'adresse du sitemap par le vrai domaine.
 
 User-agent: *
-Disallow: /dev/
 Disallow: /admin/
 
 Sitemap: http://la-mangeoire.test/sitemap.xml

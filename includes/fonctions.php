@@ -54,8 +54,8 @@ function url(string $chemin = ''): string
  */
 function urlAbsolue(string $chemin = ''): string
 {
-    global $site;
-    return rtrim($site['url_absolue'], '/') . url($chemin);
+    // Dans config.local.php : l'adresse change entre Laragon et l'hébergeur
+    return rtrim(configLocale()['url_absolue'], '/') . url($chemin);
 }
 
 /**

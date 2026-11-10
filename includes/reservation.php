@@ -9,6 +9,7 @@
 
 require_once __DIR__ . '/fonctions.php';
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/formulaire.php';
 
 const RESERVATION_COUVERTS_MAX   = 8;      // au-delà : « appelez-nous »
 const RESERVATION_PAS_MINUTES    = 30;     // un créneau toutes les 30 minutes
@@ -18,6 +19,9 @@ const RESERVATION_HORIZON        = '+2 months';
 const RESERVATION_CONSERVATION   = '-3 months';
 const JETON_AGE_MIN              = 3;      // secondes : plus rapide, c'est un robot
 const JETON_AGE_MAX              = 7200;   // secondes : au-delà, le formulaire a expiré
+// shortcut: limite globale, pas par visiteur : un robot qui l'atteint bloque aussi les vrais
+// clients pendant une heure ; passer à une limite par visiteur si le site prend de vraies réservations.
+const RESERVATION_MAX_PAR_HEURE  = 20;
 
 
 /* ==========================================================================
@@ -171,13 +175,8 @@ function verifierReservation(array $post, array $horaires, ?DateTimeImmutable $m
     $maintenant ??= new DateTimeImmutable();
     $aujourdhui = $maintenant->setTime(0, 0);
 
-    // On ne garde que les champs attendus, toujours sous forme de texte
-    $valeurs = [];
-    foreach (reservationVide() as $champ => $defaut) {
-        $texte = is_string($post[$champ] ?? null) ? trim($post[$champ]) : '';
-        // Texte qui n'est pas de l'UTF-8 valide : ignoré (signalé ensuite comme manquant)
-        $valeurs[$champ] = mb_check_encoding($texte, 'UTF-8') ? $texte : '';
-    }
+    // On ne garde que les champs attendus, en texte UTF-8 valide (voir formulaire.php)
+    $valeurs = lireChamps($post, array_keys(reservationVide()));
 
     // --- Robots : champ piège rempli, ou formulaire envoyé en moins de 3 s ---
     $jeton = verifierJeton(is_string($post['jeton'] ?? null) ? $post['jeton'] : '');
@@ -265,6 +264,15 @@ function verifierReservation(array $post, array $horaires, ?DateTimeImmutable $m
 function enregistrerReservation(array $valeurs): bool
 {
     try {
+        // Un jeton reste valable 2 h : sans cette limite, un robot pourrait
+        // remplir la table de milliers de fausses demandes.
+        // NOW() de MySQL, comme cree_le : les deux dates viennent de la même horloge
+        $recentes = db()->query('SELECT COUNT(*) FROM reservations WHERE cree_le >= NOW() - INTERVAL 1 HOUR');
+        if ($recentes->fetchColumn() >= RESERVATION_MAX_PAR_HEURE) {
+            error_log('[La Mangeoire] réservation refusée : plus de ' . RESERVATION_MAX_PAR_HEURE . ' demandes en une heure');
+            return false;
+        }
+
         $requete = db()->prepare(
             'INSERT INTO reservations (nom, telephone, email, date_repas, heure, couverts, message)
              VALUES (:nom, :telephone, :email, :date_repas, :heure, :couverts, :message)'

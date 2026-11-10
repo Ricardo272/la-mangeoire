@@ -8,6 +8,10 @@
  */
 
 return [
+    // Adresse complète du site, sans « / » final (lien canonique, partage, Google).
+    // En ligne : l'adresse définitive, en https.
+    'url_absolue' => 'http://la-mangeoire.test',
+
     'db' => [
         'hote'         => 'localhost',
         'port'         => 3306,

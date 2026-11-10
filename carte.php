@@ -9,7 +9,7 @@ $pageCss         = 'carte';
 
 // Données de la page
 require_once __DIR__ . '/includes/donnees.php';
-$ardoise       = ardoiseDuJour();
+$ardoise       = ardoiseAffichee();
 $ardoiseGrande = true;
 $carte         = carte();     // null si la base ne répond pas
 $formules      = formules();

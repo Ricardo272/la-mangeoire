@@ -56,6 +56,46 @@ function ardoiseDuJour(?DateTimeImmutable $jour = null): ?array
 }
 
 /**
+ * L'ardoise affichée sur le site public.
+ * En mode démo (config/site.php), s'il n'y a pas d'ardoise ce jour-là, on en
+ * reprend une déjà écrite, choisie selon le jour : le site de portfolio ne
+ * reste jamais sur « en cours d'écriture ». Le tableau de bord, lui, garde
+ * ardoiseDuJour() pour voir la réalité.
+ */
+function ardoiseAffichee(): ?array
+{
+    global $site;
+    $aujourdhui = new DateTimeImmutable('today');
+    $ardoise = ardoiseDuJour($aujourdhui);
+
+    if ($ardoise !== null || empty($site['demo'])) {
+        return $ardoise;
+    }
+
+    try {
+        $nombre = (int) db()->query('SELECT COUNT(*) FROM ardoise')->fetchColumn();
+        if ($nombre === 0) {
+            return null;
+        }
+        // Une ardoise différente chaque jour : le numéro du jour dans l'année, modulo le nombre d'ardoises
+        $requete = db()->prepare('SELECT plat, description, prix FROM ardoise ORDER BY date_jour LIMIT 1 OFFSET :rang');
+        $requete->bindValue('rang', (int) $aujourdhui->format('z') % $nombre, PDO::PARAM_INT);
+        $requete->execute();
+        $ligne = $requete->fetch();
+    } catch (Throwable $e) {
+        journaliserErreur('ardoise de démonstration', $e);
+        return null;
+    }
+
+    return [
+        'plat'        => $ligne['plat'],
+        'description' => $ligne['description'],
+        'prix'        => (float) $ligne['prix'],
+        'date'        => $aujourdhui, // affichée à la date du jour
+    ];
+}
+
+/**
  * La carte, rangée par rubrique :
  *   [
  *     ['nom' => 'Entrées', 'slug' => 'entrees', 'plats' => [ [...], [...] ]],

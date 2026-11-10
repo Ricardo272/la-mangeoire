@@ -31,21 +31,6 @@ function prixPourChamp(float|string|null $prix): string
     return floor($prix) == $prix ? (string) (int) $prix : number_format($prix, 2, ',', '');
 }
 
-/**
- * Récupère les champs attendus d'un formulaire, toujours sous forme de texte nettoyé.
- * Un texte qui n'est pas de l'UTF-8 valide est ignoré (vidé) : la vérification
- * le signale alors comme manquant, au lieu de faire échouer l'enregistrement en base.
- */
-function lireChamps(array $post, array $champs): array
-{
-    $valeurs = [];
-    foreach ($champs as $champ) {
-        $texte = is_string($post[$champ] ?? null) ? trim($post[$champ]) : '';
-        $valeurs[$champ] = mb_check_encoding($texte, 'UTF-8') ? $texte : '';
-    }
-    return $valeurs;
-}
-
 /** Vérifie une longueur de texte ; renvoie un message d'erreur ou null */
 function verifierLongueur(string $texte, int $min, int $max, string $nom): ?string
 {

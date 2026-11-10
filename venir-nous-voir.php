@@ -225,6 +225,13 @@ require_once __DIR__ . '/includes/header.php';
                     <a href="tel:<?= e(lienTelephone($site['telephone'])) ?>"><?= e($site['telephone']) ?></a>.
                 </p>
 
+<?php if (!empty($site['demo'])): ?>
+                <p class="bandeau-demo">
+                    <strong>Site de démonstration :</strong> La Mangeoire est un bistrot fictif,
+                    aucune réservation n'est réellement prise. N'indiquez pas vos vraies coordonnées.
+                </p>
+<?php endif; ?>
+
 <?php if ($erreurs): ?>
                 <!-- role="alert" : annoncé immédiatement ; chaque lien mène au champ concerné -->
                 <div class="resume-erreurs" role="alert">

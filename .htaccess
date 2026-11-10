@@ -58,3 +58,17 @@ RedirectMatch 404 ^/(includes|config|sql|outils)(/|$)
         AddOutputFilterByType DEFLATE image/svg+xml
     </IfModule>
 </IfModule>
+
+
+# ==========================================================================
+# HTTPS obligatoire en ligne. Pas en local (adresses en .test, sans certificat).
+# X-Forwarded-Proto : certains hébergeurs placent un relais (proxy) devant Apache ;
+# sans cette condition, la redirection tournerait en boucle chez eux.
+# ==========================================================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteCond %{HTTP_HOST} !\.test$ [NC]
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>

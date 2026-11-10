@@ -20,6 +20,15 @@ require_once __DIR__ . '/../includes/db.php';
 
 const MDP_LONGUEUR_MIN = 12;
 
+// Connexion testée d'emblée : sans ce try, l'erreur afficherait une trace
+// contenant le mot de passe de la base (avec Xdebug ou display_errors).
+try {
+    db();
+} catch (Throwable $e) {
+    fwrite(STDERR, "La base ne répond pas : vérifiez que MySQL est démarré.\n");
+    exit(1);
+}
+
 $supprimer   = in_array('--supprimer', $argv, true);
 $arguments   = array_values(array_filter(array_slice($argv, 1), fn ($a) => !str_starts_with($a, '--')));
 $identifiant = $arguments[0] ?? '';

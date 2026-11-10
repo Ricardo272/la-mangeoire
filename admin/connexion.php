@@ -25,7 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         rediriger('admin/');
     }
 
-    // Toujours le même message, que l'identifiant existe ou non
+    // Même message pour un identifiant inconnu ou un mauvais mot de passe.
+    // Seul « Trop de tentatives » révèle qu'un compte existe (assumé : voir auth.php).
     $erreur = $resultat === 'bloque'
         ? 'Trop de tentatives. Réessayez dans ' . ADMIN_BLOCAGE_MINUTES . ' minutes.'
         : 'Identifiant ou mot de passe incorrect.';
