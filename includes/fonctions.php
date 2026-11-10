@@ -7,6 +7,12 @@
 // Toutes les heures du site (badge « Ouvert », réservations) sont celles de Paris.
 date_default_timezone_set('Europe/Paris');
 
+// En ligne, une erreur PHP n'est jamais affichée au visiteur (elle reste dans le
+// journal) : l'hébergeur l'affiche par défaut. En local (adresses .test), on la voit.
+if (PHP_SAPI !== 'cli' && !str_ends_with($_SERVER['HTTP_HOST'] ?? '', '.test')) {
+    ini_set('display_errors', '0');
+}
+
 $site = require __DIR__ . '/../config/site.php';
 
 /**
