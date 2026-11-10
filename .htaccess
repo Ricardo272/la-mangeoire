@@ -15,9 +15,10 @@ Options -Indexes
 # includes/ : morceaux de page qui n'ont pas de sens seuls
 # config/   : configuration (identifiants de la base, clé secrète)
 # sql/      : structure de la base
-# outils/   : scripts de développement (génération des images)
+# outils/   : scripts en ligne de commande (comptes, images)
+# tests/    : tests en ligne de commande
 # On répond « 404 » plutôt que « 403 interdit » : inutile de signaler qu'ils existent.
-RedirectMatch 404 ^/(includes|config|sql|outils)(/|$)
+RedirectMatch 404 ^/(includes|config|sql|outils|tests)(/|$)
 
 
 # ==========================================================================

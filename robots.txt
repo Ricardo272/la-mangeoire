@@ -1,7 +1,7 @@
 # Consignes pour les robots des moteurs de recherche.
-# À la mise en ligne : remplacer l'adresse du sitemap par le vrai domaine.
+# Adresse du site en ligne (le site local n'est pas indexé de toute façon).
 
 User-agent: *
 Disallow: /admin/
 
-Sitemap: http://la-mangeoire.test/sitemap.xml
+Sitemap: https://la-mangeoire-demo.alwaysdata.net/sitemap.xml
