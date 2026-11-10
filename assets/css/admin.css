@@ -1,0 +1,525 @@
+/* ==========================================================================
+   Tableau de bord (admin/) — même palette que le site, en plus sobre.
+   Pensé d'abord pour le téléphone : l'ardoise s'écrit souvent au marché.
+   ========================================================================== */
+
+/* --- En-tête bordeaux --- */
+.admin-entete {
+    background-color: var(--couleur-bordeaux);
+    color: var(--couleur-creme);
+    border-bottom: 3px double var(--couleur-laiton);
+}
+
+.admin-entete__interieur {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espace-xs) var(--espace-m);
+    padding-block: var(--espace-s);
+}
+
+.admin-entete__nom {
+    font-family: var(--police-titres);
+    font-size: var(--taille-1);
+}
+
+.admin-entete__nom span {
+    font-family: var(--police-texte);
+    font-size: var(--taille-petite);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.admin-entete :focus-visible {
+    outline-color: var(--couleur-creme);
+}
+
+/* Le menu passe sous le nom sur mobile (order) */
+.admin-entete nav {
+    order: 3;
+    flex-basis: 100%;
+}
+
+@media (min-width: 60em) {
+    .admin-entete nav {
+        order: 0;
+        flex-basis: auto;
+    }
+}
+
+.admin-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--espace-m);
+    padding: 0;
+    list-style: none;
+}
+
+.admin-nav a {
+    display: inline-block;
+    padding-block: 0.5rem;
+    border-bottom: 2px solid transparent;
+    color: var(--couleur-creme);
+    text-decoration: none;
+}
+
+.admin-nav a:hover,
+.admin-nav a[aria-current="page"] {
+    border-bottom-color: var(--couleur-laiton);
+}
+
+.admin-entete__deconnexion button {
+    min-height: 2.75rem;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid color-mix(in srgb, var(--couleur-creme) 50%, transparent);
+    border-radius: var(--rayon);
+    background: none;
+    color: var(--couleur-creme);
+    font-size: var(--taille-petite);
+    cursor: pointer;
+}
+
+/* --- Page --- */
+.admin-page {
+    display: grid;
+    gap: var(--espace-m);
+    align-content: start;
+    padding-block: var(--espace-l) var(--espace-xl);
+}
+
+.admin-page h1 {
+    font-size: var(--taille-3);
+}
+
+.admin-sous-titre {
+    margin-top: calc(-1 * var(--espace-s));
+    color: var(--couleur-texte-doux);
+}
+
+.admin-page h2 {
+    font-size: var(--taille-1);
+}
+
+/* --- Messages après une action --- */
+.flash {
+    max-width: none;
+    padding: var(--espace-s) var(--espace-m);
+    border-left: 4px solid var(--couleur-laiton);
+    background-color: color-mix(in srgb, var(--couleur-creme) 50%, white);
+    font-weight: 500;
+}
+
+.flash--erreur {
+    border-left-color: var(--couleur-bordeaux);
+    color: var(--couleur-bordeaux);
+}
+
+/* --- Cartes (blocs) --- */
+.admin-grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+    gap: var(--espace-m);
+}
+
+.admin-carte {
+    display: grid;
+    gap: var(--espace-s);
+    align-content: start;
+    justify-items: start;
+    max-width: none;
+    padding: var(--espace-m);
+    border: 1px solid color-mix(in srgb, var(--couleur-filet) 60%, transparent);
+    border-radius: var(--rayon);
+    background-color: color-mix(in srgb, var(--couleur-creme) 50%, white);
+}
+
+.admin-carte > * {
+    max-width: 100%;
+}
+
+.admin-carte--large {
+    grid-column: 1 / -1;
+}
+
+.admin-carte--formulaire {
+    border: 2px solid var(--couleur-filet);
+}
+
+.admin-carte--formulaire .formulaire,
+.admin-carte .formulaire {
+    width: 100%;
+}
+
+.admin-carte__entete {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espace-xs);
+    width: 100%;
+}
+
+.admin-compteur {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.75rem;
+    height: 1.75rem;
+    margin-left: 0.4rem;
+    padding-inline: 0.4rem;
+    border-radius: 999px;
+    background-color: var(--couleur-bordeaux);
+    color: var(--couleur-creme);
+    font-family: var(--police-texte);
+    font-size: var(--taille-petite);
+    vertical-align: middle;
+}
+
+.admin-note,
+.admin-discret {
+    font-size: var(--taille-petite);
+    color: var(--couleur-texte-doux);
+}
+
+.admin-liste {
+    display: grid;
+    gap: var(--espace-xs);
+    padding: 0;
+    list-style: none;
+}
+
+/* --- Tableaux --- */
+.admin-tableau {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-tableau th,
+.admin-tableau td {
+    padding: 0.55rem 0.5rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--couleur-texte) 12%, transparent);
+    text-align: left;
+    vertical-align: top;
+}
+
+.admin-tableau thead th {
+    font-size: var(--taille-petite);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--couleur-texte-doux);
+}
+
+.admin-tableau tbody th {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.admin-tableau .est-selectionne {
+    background-color: color-mix(in srgb, var(--couleur-laiton) 18%, transparent);
+}
+
+/* Sur mobile, le tableau des ardoises devient une liste de lignes empilées */
+@media (width < 40em) {
+    .admin-tableau--ardoises thead {
+        display: none;
+    }
+
+    .admin-tableau--ardoises tr {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        padding-block: 0.4rem;
+        border-bottom: 1px solid color-mix(in srgb, var(--couleur-texte) 12%, transparent);
+    }
+
+    .admin-tableau--ardoises th,
+    .admin-tableau--ardoises td {
+        padding: 0.1rem 0;
+        border: 0;
+    }
+
+    .admin-tableau--ardoises td:nth-child(2) {
+        grid-column: 1;
+    }
+}
+
+/* --- Ardoise : formulaire + aperçu --- */
+.admin-ardoise {
+    display: grid;
+    gap: var(--espace-l);
+    align-items: start;
+}
+
+@media (min-width: 56em) {
+    .admin-ardoise {
+        grid-template-columns: 1fr minmax(0, 22rem);
+    }
+}
+
+.admin-apercu {
+    display: grid;
+    gap: var(--espace-xs);
+}
+
+.admin-apercu__titre {
+    font-family: var(--police-texte);
+    font-size: var(--taille-petite) !important;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--couleur-texte-doux);
+}
+
+.admin-ardoise-resume span {
+    color: var(--couleur-texte-doux);
+}
+
+.champ--court {
+    max-width: 10rem;
+}
+
+.admin-action-secondaire {
+    margin-top: var(--espace-xs);
+}
+
+/* Bouton d'action destructrice, discret mais clair */
+.admin-lien-danger {
+    min-height: 2.75rem;
+    padding: 0.4rem 0;
+    border: 0;
+    background: none;
+    color: var(--couleur-bordeaux);
+    font-size: var(--taille-petite);
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* --- Petits boutons --- */
+.bouton--petit {
+    min-height: 2.5rem;
+    padding: 0.45rem 0.9rem;
+    font-size: var(--taille-petite);
+}
+
+/* --- Case à cocher --- */
+.case-a-cocher {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    cursor: pointer;
+}
+
+.case-a-cocher input {
+    width: 1.25rem;
+    height: 1.25rem;
+    accent-color: var(--couleur-bordeaux);
+}
+
+/* --- Onglets (à venir / passées) --- */
+.admin-onglets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espace-m);
+    border-bottom: 1px solid var(--couleur-filet);
+}
+
+.admin-onglets a {
+    padding-block: 0.6rem;
+    border-bottom: 3px solid transparent;
+    color: var(--couleur-texte);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.admin-onglets a[aria-current="page"] {
+    border-bottom-color: var(--couleur-bordeaux);
+    color: var(--couleur-bordeaux);
+}
+
+/* --- Réservations --- */
+.admin-jour {
+    display: grid;
+    gap: var(--espace-s);
+    margin-top: var(--espace-s);
+}
+
+.admin-jour h2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem var(--espace-s);
+}
+
+.admin-jour__couverts {
+    font-family: var(--police-texte);
+    font-size: var(--taille-petite);
+    font-weight: 500;
+    color: var(--couleur-texte-doux);
+}
+
+.admin-resas {
+    display: grid;
+    gap: var(--espace-xs);
+    padding: 0;
+    list-style: none;
+}
+
+.resa {
+    display: grid;
+    gap: var(--espace-s);
+    padding: var(--espace-s) var(--espace-m);
+    border: 1px solid color-mix(in srgb, var(--couleur-filet) 60%, transparent);
+    border-left-width: 4px;
+    border-radius: var(--rayon);
+    background-color: color-mix(in srgb, var(--couleur-creme) 50%, white);
+    scroll-margin-top: var(--espace-m);
+}
+
+.resa--en_attente { border-left-color: var(--couleur-laiton); }
+.resa--confirmee  { border-left-color: var(--couleur-bordeaux); }
+.resa--annulee    { opacity: 0.65; }
+
+.resa__principal {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.25rem var(--espace-m);
+    align-items: start;
+}
+
+.resa__heure {
+    font-family: var(--police-titres);
+    font-size: var(--taille-1);
+    line-height: 1.2;
+    color: var(--couleur-bordeaux);
+}
+
+.resa__nom {
+    font-weight: 600;
+}
+
+.resa__contact,
+.resa__message {
+    font-size: var(--taille-petite);
+}
+
+.resa__message {
+    font-style: italic;
+    color: var(--couleur-texte-doux);
+}
+
+.resa .statut {
+    grid-column: 2;
+    justify-self: start;
+}
+
+@media (min-width: 40em) {
+    .resa__principal {
+        grid-template-columns: 4rem 1fr auto;
+    }
+
+    .resa .statut {
+        grid-column: auto;
+    }
+}
+
+.resa__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espace-xs);
+}
+
+/* Étiquettes de statut : texte + forme, pas seulement la couleur */
+.statut {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.statut--en_attente {
+    color: var(--couleur-texte);
+    border-style: dashed;
+}
+
+.statut--confirmee {
+    border-color: var(--couleur-bordeaux);
+    background-color: var(--couleur-bordeaux);
+    color: var(--couleur-creme);
+}
+
+.statut--annulee {
+    color: var(--couleur-texte-doux);
+    text-decoration: line-through;
+}
+
+/* --- Plats --- */
+.admin-plats {
+    display: grid;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+}
+
+.admin-plat {
+    display: grid;
+    gap: var(--espace-xs);
+    padding-block: var(--espace-s);
+    border-bottom: 1px solid color-mix(in srgb, var(--couleur-texte) 12%, transparent);
+    scroll-margin-top: var(--espace-m);
+}
+
+.admin-plat--masque .admin-plat__texte {
+    opacity: 0.6;
+}
+
+.admin-plat__nom {
+    font-weight: 600;
+}
+
+.admin-plat__details {
+    font-size: var(--taille-petite);
+    color: var(--couleur-texte-doux);
+}
+
+.admin-plat__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espace-xs);
+}
+
+@media (min-width: 48em) {
+    .admin-plat {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+    }
+}
+
+/* --- Connexion --- */
+.connexion {
+    display: grid;
+    place-items: center;
+    min-height: 70vh;
+}
+
+.connexion__boite {
+    display: grid;
+    gap: var(--espace-m);
+    width: min(100%, 24rem);
+    padding: var(--espace-l) var(--espace-m);
+}
+
+.connexion__boite h1 {
+    text-align: center;
+    font-size: var(--taille-3);
+}
+
+.connexion .bouton {
+    width: 100%;
+}

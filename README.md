@@ -36,6 +36,21 @@ et aujourd'hui Lucas, le petit-fils.
 Les ardoises de démonstration couvrent 14 jours à partir de l'import :
 relancer `sql/seed.sql` pour les prolonger.
 
+## Tableau de bord
+
+Adresse : `http://la-mangeoire.test/admin/` (aucun lien depuis le site public).
+
+Créer un compte, ou changer son mot de passe (12 caractères minimum, demandé au clavier) :
+
+```
+php outils/creer-admin.php lucas
+```
+
+Supprimer un compte : `php outils/creer-admin.php --supprimer lucas`
+
+Attention : relancer `sql/schema.sql` supprime aussi les comptes (à recréer ensuite).
+`sql/seed.sql` ne touche pas aux comptes.
+
 ## Images générées
 
 L'image de partage (`assets/img/partage.jpg`), `favicon.ico` et `apple-touch-icon.png`
@@ -72,7 +87,8 @@ la-mangeoire/
   suppression automatique des réservations 3 mois après le repas)
 - [x] Phase 6 : finitions (agrandissement des toiles, animations, rubrique en cours, carte imprimable,
   JSON-LD, Open Graph, favicon, robots/sitemap, cache et compression, contrôle d'accessibilité)
-- [ ] Phase 7 : tableau de bord
+- [x] Phase 7 : tableau de bord (ardoise avec aperçu, réservations, carte et formule ;
+  session limitée à /admin/, CSRF, blocage après 5 échecs, mots de passe hachés)
 - [ ] Phase 8 : mise en ligne
   (compléter l'hébergeur et le contact dans les mentions légales ; vérifier le numéro fictif ;
   retirer dev/composants.php ; remplacer le domaine dans config/site.php (url_absolue),

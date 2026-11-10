@@ -174,7 +174,9 @@ function verifierReservation(array $post, array $horaires, ?DateTimeImmutable $m
     // On ne garde que les champs attendus, toujours sous forme de texte
     $valeurs = [];
     foreach (reservationVide() as $champ => $defaut) {
-        $valeurs[$champ] = is_string($post[$champ] ?? null) ? trim($post[$champ]) : '';
+        $texte = is_string($post[$champ] ?? null) ? trim($post[$champ]) : '';
+        // Texte qui n'est pas de l'UTF-8 valide : ignoré (signalé ensuite comme manquant)
+        $valeurs[$champ] = mb_check_encoding($texte, 'UTF-8') ? $texte : '';
     }
 
     // --- Robots : champ piège rempli, ou formulaire envoyé en moins de 3 s ---

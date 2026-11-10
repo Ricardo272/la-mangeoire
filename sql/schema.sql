@@ -1,14 +1,14 @@
 -- ==========================================================================
 -- Structure de la base La Mangeoire
 -- À exécuter en root, dans la base la_mangeoire.
--- ATTENTION : supprime les tables existantes et toutes leurs données.
---
--- Viendra plus tard : admins (phase 7).
+-- ATTENTION : supprime les tables existantes et toutes leurs données,
+-- Y COMPRIS LES COMPTES D'ADMINISTRATION (à recréer avec outils/creer-admin.php).
 -- ==========================================================================
 
 SET NAMES utf8mb4;
 
 -- On supprime d'abord les tables qui dépendent des autres (clés étrangères)
+DROP TABLE IF EXISTS admins;
 DROP TABLE IF EXISTS reservations;
 DROP TABLE IF EXISTS ardoise;
 DROP TABLE IF EXISTS formules;
@@ -106,4 +106,23 @@ CREATE TABLE reservations (
     PRIMARY KEY (id),
     -- Index : les recherches et le nettoyage se font par date de repas
     KEY idx_reservations_date (date_repas)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- --------------------------------------------------------------------------
+-- Comptes du tableau de bord (phase 7)
+-- Le mot de passe n'est JAMAIS stocké tel quel : seulement son empreinte
+-- calculée par password_hash() (impossible de retrouver le mot de passe).
+-- Pas de page d'inscription : les comptes se créent avec outils/creer-admin.php.
+-- --------------------------------------------------------------------------
+CREATE TABLE admins (
+    id                  TINYINT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    identifiant         VARCHAR(40)       NOT NULL,
+    mot_de_passe        VARCHAR(255)      NOT NULL,    -- empreinte password_hash()
+    echecs              TINYINT UNSIGNED  NOT NULL DEFAULT 0,  -- échecs de connexion d'affilée
+    bloque_jusqua       DATETIME          NULL,        -- blocage après trop d'échecs
+    derniere_connexion  DATETIME          NULL,
+    cree_le             DATETIME          NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_admins_identifiant (identifiant)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

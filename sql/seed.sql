@@ -90,3 +90,28 @@ INSERT INTO ardoise (date_jour, plat, description, prix) VALUES
     (CURDATE() + INTERVAL 11 DAY, 'Choucroute garnie',                'trois viandes, pommes vapeur',      20.00),
     (CURDATE() + INTERVAL 12 DAY, 'Tête de veau, sauce gribiche',     'comme le faisait Marcel',           18.00),
     (CURDATE() + INTERVAL 13 DAY, 'Navarin d''agneau',                'petits légumes glacés',             21.00);
+
+
+-- --------------------------------------------------------------------------
+-- Réservations de démonstration (pour tester le tableau de bord)
+-- Sur les 10 prochains jours, en gardant seulement les jours d'ouverture :
+-- WEEKDAY() vaut 0 le lundi … 6 le dimanche → on garde 1 à 5 (mardi → samedi).
+-- --------------------------------------------------------------------------
+INSERT INTO reservations (nom, telephone, email, date_repas, heure, couverts, message, statut)
+SELECT nom, telephone, email, jour, heure, couverts, message, statut
+  FROM (
+            SELECT 'Jeanne Martin'    AS nom, '06 12 34 56 78' AS telephone, 'jeanne.martin@example.com' AS email, CURDATE() + INTERVAL 0 DAY AS jour, '12:30' AS heure, 2 AS couverts, NULL AS message, 'confirmee' AS statut
+  UNION ALL SELECT 'Paul Lefèvre',      '07 98 76 54 32', NULL,                         CURDATE() + INTERVAL 0 DAY, '20:00', 4, 'Une chaise haute, merci', 'en_attente'
+  UNION ALL SELECT 'Amina Benali',      '06 55 44 33 22', 'amina.b@example.com',        CURDATE() + INTERVAL 1 DAY, '12:00', 3, NULL, 'en_attente'
+  UNION ALL SELECT 'Hugo Moreau',       '06 11 22 33 44', NULL,                         CURDATE() + INTERVAL 1 DAY, '19:30', 6, 'Anniversaire de ma mère', 'confirmee'
+  UNION ALL SELECT 'Claire Dubois',     '01 99 00 11 22', 'claire.dubois@example.com',  CURDATE() + INTERVAL 2 DAY, '21:00', 2, NULL, 'en_attente'
+  UNION ALL SELECT 'Marc Petit',        '06 70 80 90 10', NULL,                         CURDATE() + INTERVAL 3 DAY, '13:00', 5, NULL, 'annulee'
+  UNION ALL SELECT 'Sophie Laurent',    '07 12 12 12 12', 'sophie@example.com',         CURDATE() + INTERVAL 3 DAY, '20:30', 2, 'Table près de la fenêtre si possible', 'en_attente'
+  UNION ALL SELECT 'Karim Haddad',      '06 45 45 45 45', NULL,                         CURDATE() + INTERVAL 4 DAY, '12:30', 8, 'Déjeuner d''équipe', 'confirmee'
+  UNION ALL SELECT 'Élise Fontaine',    '06 30 30 30 30', NULL,                         CURDATE() + INTERVAL 5 DAY, '19:00', 2, NULL, 'en_attente'
+  UNION ALL SELECT 'Thomas Girard',     '07 60 60 60 60', 'thomas.g@example.com',       CURDATE() + INTERVAL 7 DAY, '20:00', 4, 'Allergie aux fruits à coque', 'en_attente'
+  UNION ALL SELECT 'Nadia Roux',        '06 90 90 90 90', NULL,                         CURDATE() + INTERVAL 8 DAY, '12:00', 3, NULL, 'en_attente'
+  UNION ALL SELECT 'Louis Garnier',     '06 21 21 21 21', NULL,                         CURDATE() + INTERVAL 9 DAY, '21:30', 2, NULL, 'en_attente'
+  UNION ALL SELECT 'Inès Mercier',      '06 81 81 81 81', NULL,                         CURDATE() - INTERVAL 6 DAY, '20:00', 4, NULL, 'confirmee'
+  ) AS exemples
+ WHERE WEEKDAY(jour) BETWEEN 1 AND 5;
